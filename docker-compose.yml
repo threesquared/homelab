@@ -6,7 +6,7 @@ services:
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /mnt/RAIDZ/Docker/portainer/data:/data
+      - /mnt/RAIDZ/Docker/portainer:/data
     ports:
       - 80:9000
   influxdb:
@@ -30,7 +30,7 @@ services:
     volumes:
       - /mnt/RAIDZ/Docker/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
   grafana:
-    image: grafana/grafana:latest
+    image: fg2it/grafana-armhf:5.0.4
     container_name: grafana
     restart: unless-stopped
     ports:
@@ -40,7 +40,7 @@ services:
     depends_on:
       - influxdb
     volumes:
-     - /mnt/RAIDZ/Docker/grafana/data:/var/lib/grafana
+     - /mnt/RAIDZ/Docker/grafana:/var/lib/grafana
   mariadb:
     image: lsioarmhf/mariadb:latest
     container_name: mariadb
@@ -58,14 +58,14 @@ services:
     container_name: kodi
     restart: unless-stopped
     ports:
-      - 8080:8080
-      - 9777:9777
+      - 8081:8080
+      - 9777:9777/udp
     links:
       - mariadb
     depends_on:
       - mariadb
     volumes:
-      - /mnt/RAIDZ/Docker/kodi/data:/config/.kodi
+      - /mnt/RAIDZ/Docker/kodi:/config/.kodi
     environment:
       - PGID=1000
       - PUID=1000
@@ -78,7 +78,7 @@ services:
       - 8888:8888
       - 55555:55555
     volumes:
-      - /mnt/RAIDZ/Docker/resilio/data:/config
+      - /mnt/RAIDZ/Docker/resilio:/config
     environment:
       - PGID=1000
       - PUID=1000
@@ -88,10 +88,24 @@ services:
     container_name: unifi
     restart: unless-stopped
     ports:
+      - 3478:3478/udp
+      - 10001:10001/udp
       - 8080:8080
-      - 3478:3478
+      - 8081:8081
+      - 8443:8443
+      - 8843:8843
+      - 8880:8880
+      - 6789:6789
     volumes:
-      - /mnt/RAIDZ/Docker/unifi/data:/config
+      - /mnt/RAIDZ/Docker/unifi:/config
     environment:
       - PGID=1000
       - PUID=1000
+networks:
+  macvlan:
+    driver: macvlan
+    driver_opts:
+      parent: eth0
+    ipam:
+      config:
+        - subnet: 192.168.0.0/24
