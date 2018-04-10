@@ -1,0 +1,97 @@
+version: '3'
+services:
+  portainer:
+    image: portainer/portainer:arm
+    container_name: portainer
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /mnt/RAIDZ/Docker/portainer/data:/data
+    ports:
+      - 80:9000
+  influxdb:
+    image: influxdb:latest
+    container_name: influxdb
+    restart: unless-stopped
+    ports:
+      - 8086:8086
+      - 2003:2003
+    volumes:
+      - /mnt/RAIDZ/Docker/influxdb/influxdb.conf:/etc/influxdb/influxdb.conf:ro
+      - /mnt/RAIDZ/Docker/influxdb/data:/var/lib/influxdb
+  telegraf:
+    image: telegraf:latest
+    container_name: telegraf
+    restart: unless-stopped
+    links:
+      - influxdb
+    depends_on:
+      - influxdb
+    volumes:
+      - /mnt/RAIDZ/Docker/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    links:
+      - influxdb
+    depends_on:
+      - influxdb
+    volumes:
+     - /mnt/RAIDZ/Docker/grafana/data:/var/lib/grafana
+  mariadb:
+    image: lsioarmhf/mariadb:latest
+    container_name: mariadb
+    restart: unless-stopped
+    ports:
+      - 3306:3306
+    volumes:
+      - /mnt/RAIDZ/Docker/mariadb:/config
+    environment:
+      - PGID=1000
+      - PUID=1000
+      - TZ=Europe/London
+  kodi:
+    image: lsioarmhf/kodi-headless:latest
+    container_name: kodi
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+      - 9777:9777
+    links:
+      - mariadb
+    depends_on:
+      - mariadb
+    volumes:
+      - /mnt/RAIDZ/Docker/kodi/data:/config/.kodi
+    environment:
+      - PGID=1000
+      - PUID=1000
+      - TZ=Europe/London
+  resilio:
+    image: lsioarmhf/resilio-sync:latest
+    container_name: resilio
+    restart: unless-stopped
+    ports:
+      - 8888:8888
+      - 55555:55555
+    volumes:
+      - /mnt/RAIDZ/Docker/resilio/data:/config
+    environment:
+      - PGID=1000
+      - PUID=1000
+      - TZ=Europe/London
+  unifi:
+    image: lsioarmhf/unifi:latest
+    container_name: unifi
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+      - 3478:3478
+    volumes:
+      - /mnt/RAIDZ/Docker/unifi/data:/config
+    environment:
+      - PGID=1000
+      - PUID=1000
