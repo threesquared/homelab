@@ -30,7 +30,7 @@ services:
     volumes:
       - /mnt/RAIDZ/Docker/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
   grafana:
-    image: fg2it/grafana-armhf:5.0.4
+    image: fg2it/grafana-armhf:v5.0.4
     container_name: grafana
     restart: unless-stopped
     ports:
@@ -58,7 +58,7 @@ services:
     container_name: kodi
     restart: unless-stopped
     ports:
-      - 8081:8080
+      - 8082:8080
       - 9777:9777/udp
     links:
       - mariadb
@@ -101,6 +101,50 @@ services:
     environment:
       - PGID=1000
       - PUID=1000
+  transmission:
+    image: lsioarmhf/transmission:latest
+    container_name: transmission
+    restart: unless-stopped
+    ports:
+      - 9091:9091
+      - 51413:51413
+    volumes:
+      - /mnt/RAIDZ/Docker/transmission:/config
+      - /mnt/RAIDZ/Downloads:/mnt/RAIDZ/Downloads
+      - /mnt/RAIDZ/Movies:/mnt/RAIDZ/Movies
+      - /mnt/RAIDZ/TV:/mnt/RAIDZ/TV
+    environment:
+      - PGID=1000
+      - PUID=1000
+      - TZ=Europe/London
+  couchpotato:
+    image: lsioarmhf/couchpotato:latest
+    container_name: couchpotato
+    restart: unless-stopped
+    ports:
+      - 5050:5050
+    volumes:
+      - /mnt/RAIDZ/Docker/couchpotato:/config
+      - /mnt/RAIDZ/Downloads/Movies:/mnt/RAIDZ/Downloads/Movies
+      - /mnt/RAIDZ/Movies:/mnt/RAIDZ/Movies
+    environment:
+      - PGID=1000
+      - PUID=1000
+      - TZ=Europe/London
+  sickrage:
+    image: lsioarmhf/sickrage:latest
+    container_name: sickrage
+    restart: unless-stopped
+    ports:
+      - 8083:8083
+    volumes:
+      - /mnt/RAIDZ/Docker/sickrage:/config
+      - /mnt/RAIDZ/Downloads/TV:/mnt/RAIDZ/Downloads/TV
+      - /mnt/RAIDZ/TV:/mnt/RAIDZ/TV
+    environment:
+      - PGID=1000
+      - PUID=1000
+      - TZ=Europe/London
 networks:
   macvlan:
     driver: macvlan
