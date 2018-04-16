@@ -114,8 +114,8 @@ services:
       - /mnt/RAIDZ/Movies:/mnt/RAIDZ/Movies
       - /mnt/RAIDZ/TV:/mnt/RAIDZ/TV
     environment:
-      - PGID=1000
-      - PUID=1000
+      - PGID=8675309
+      - PUID=8675309
       - TZ=Europe/London
   couchpotato:
     image: lsioarmhf/couchpotato:latest
@@ -128,22 +128,22 @@ services:
       - /mnt/RAIDZ/Downloads/Movies:/mnt/RAIDZ/Downloads/Movies
       - /mnt/RAIDZ/Movies:/mnt/RAIDZ/Movies
     environment:
-      - PGID=1000
-      - PUID=1000
+      - PGID=8675309
+      - PUID=8675309
       - TZ=Europe/London
   sickrage:
     image: lsioarmhf/sickrage:latest
     container_name: sickrage
     restart: unless-stopped
     ports:
-      - 8083:8083
+      - 8083:8081
     volumes:
       - /mnt/RAIDZ/Docker/sickrage:/config
       - /mnt/RAIDZ/Downloads/TV:/mnt/RAIDZ/Downloads/TV
       - /mnt/RAIDZ/TV:/mnt/RAIDZ/TV
     environment:
-      - PGID=1000
-      - PUID=1000
+      - PGID=8675309
+      - PUID=8675309
       - TZ=Europe/London
 networks:
   macvlan:
