@@ -78,10 +78,12 @@ services:
       - 8888:8888
       - 55555:55555
     volumes:
-      - /mnt/RAIDZ/Docker/resilio:/config
+      - /mnt/RAIDZ/Docker/resilio/config:/config
+      - /mnt/RAIDZ/Docker/resilio/downloads:/downloads
+      - /mnt/RAIDZ/Backups/Photos/Sync:/sync
     environment:
-      - PGID=1000
-      - PUID=1000
+      - PGID=8675309
+      - PUID=8675309
       - TZ=Europe/London
   unifi:
     image: lsioarmhf/unifi:latest
