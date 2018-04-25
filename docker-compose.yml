@@ -28,6 +28,7 @@ services:
     depends_on:
       - influxdb
     volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
       - /mnt/RAIDZ/Docker/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
   grafana:
     image: fg2it/grafana-armhf:v5.0.4
@@ -41,6 +42,8 @@ services:
       - influxdb
     volumes:
      - /mnt/RAIDZ/Docker/grafana:/var/lib/grafana
+    environment:
+     - GF_INSTALL_PLUGINS=ntop-ntopng-datasource
   mariadb:
     image: lsioarmhf/mariadb:latest
     container_name: mariadb
@@ -66,6 +69,7 @@ services:
       - mariadb
     volumes:
       - /mnt/RAIDZ/Docker/kodi:/config/.kodi
+      - /mnt/RAIDZ:/mnt/RAIDZ
     environment:
       - PGID=1000
       - PUID=1000
@@ -86,7 +90,7 @@ services:
       - PUID=8675309
       - TZ=Europe/London
   unifi:
-    image: lsioarmhf/unifi:latest
+    image: lsioarmhf/unifi
     container_name: unifi
     restart: unless-stopped
     ports:
@@ -112,9 +116,7 @@ services:
       - 51413:51413
     volumes:
       - /mnt/RAIDZ/Docker/transmission:/config
-      - /mnt/RAIDZ/Downloads:/mnt/RAIDZ/Downloads
-      - /mnt/RAIDZ/Movies:/mnt/RAIDZ/Movies
-      - /mnt/RAIDZ/TV:/mnt/RAIDZ/TV
+      - /mnt/RAIDZ:/mnt/RAIDZ
     environment:
       - PGID=8675309
       - PUID=8675309
@@ -127,8 +129,7 @@ services:
       - 5050:5050
     volumes:
       - /mnt/RAIDZ/Docker/couchpotato:/config
-      - /mnt/RAIDZ/Downloads/Movies:/mnt/RAIDZ/Downloads/Movies
-      - /mnt/RAIDZ/Movies:/mnt/RAIDZ/Movies
+      - /mnt/RAIDZ:/mnt/RAIDZ
     environment:
       - PGID=8675309
       - PUID=8675309
@@ -141,8 +142,7 @@ services:
       - 8083:8081
     volumes:
       - /mnt/RAIDZ/Docker/sickrage:/config
-      - /mnt/RAIDZ/Downloads/TV:/mnt/RAIDZ/Downloads/TV
-      - /mnt/RAIDZ/TV:/mnt/RAIDZ/TV
+      - /mnt/RAIDZ:/mnt/RAIDZ
     environment:
       - PGID=8675309
       - PUID=8675309
