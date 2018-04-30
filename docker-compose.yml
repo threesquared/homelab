@@ -3,7 +3,6 @@ services:
   portainer:
     image: portainer/portainer:arm
     container_name: portainer
-    restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /mnt/RAIDZ/Docker/portainer:/data
@@ -12,7 +11,6 @@ services:
   influxdb:
     image: influxdb:latest
     container_name: influxdb
-    restart: unless-stopped
     ports:
       - 8086:8086
       - 2003:2003
@@ -22,7 +20,6 @@ services:
   telegraf:
     image: telegraf:latest
     container_name: telegraf
-    restart: unless-stopped
     links:
       - influxdb
     depends_on:
@@ -33,7 +30,6 @@ services:
   grafana:
     image: fg2it/grafana-armhf:v5.0.4
     container_name: grafana
-    restart: unless-stopped
     ports:
       - 3000:3000
     links:
@@ -47,7 +43,6 @@ services:
   mariadb:
     image: lsioarmhf/mariadb:latest
     container_name: mariadb
-    restart: unless-stopped
     ports:
       - 3306:3306
     volumes:
@@ -59,7 +54,6 @@ services:
   kodi:
     image: lsioarmhf/kodi-headless:latest
     container_name: kodi
-    restart: unless-stopped
     ports:
       - 8082:8080
       - 9777:9777/udp
@@ -77,7 +71,6 @@ services:
   resilio:
     image: lsioarmhf/resilio-sync:latest
     container_name: resilio
-    restart: unless-stopped
     ports:
       - 8888:8888
       - 55555:55555
@@ -89,28 +82,9 @@ services:
       - PGID=8675309
       - PUID=8675309
       - TZ=Europe/London
-  unifi:
-    image: lsioarmhf/unifi
-    container_name: unifi
-    restart: unless-stopped
-    ports:
-      - 3478:3478/udp
-      - 10001:10001/udp
-      - 8080:8080
-      - 8081:8081
-      - 8443:8443
-      - 8843:8843
-      - 8880:8880
-      - 6789:6789
-    volumes:
-      - /mnt/RAIDZ/Docker/unifi:/config
-    environment:
-      - PGID=1000
-      - PUID=1000
   transmission:
     image: lsioarmhf/transmission:latest
     container_name: transmission
-    restart: unless-stopped
     ports:
       - 9091:9091
       - 51413:51413
@@ -121,12 +95,17 @@ services:
       - PGID=8675309
       - PUID=8675309
       - TZ=Europe/London
+    networks:
+      alpha:
+        ipv4_address: 192.168.0.11
+      default:
   couchpotato:
     image: lsioarmhf/couchpotato:latest
     container_name: couchpotato
-    restart: unless-stopped
     ports:
       - 5050:5050
+    links:
+      - transmission
     volumes:
       - /mnt/RAIDZ/Docker/couchpotato:/config
       - /mnt/RAIDZ:/mnt/RAIDZ
@@ -137,9 +116,10 @@ services:
   sickrage:
     image: lsioarmhf/sickrage:latest
     container_name: sickrage
-    restart: unless-stopped
     ports:
       - 8083:8081
+    links:
+      - transmission
     volumes:
       - /mnt/RAIDZ/Docker/sickrage:/config
       - /mnt/RAIDZ:/mnt/RAIDZ
@@ -147,8 +127,18 @@ services:
       - PGID=8675309
       - PUID=8675309
       - TZ=Europe/London
+  speedtest:
+    build: /mnt/RAIDZ/Docker/speedtest
+    container_name: speedtest
+    links:
+      - influxdb
+    environment:
+      - INFLUXDB_DATABASE=speedtests
+      - INFLUXDB_HOST=influxdb
+      - INFLUXDB_PORT=8086
+      - SPEEDTEST_FRQUENCY=3600
 networks:
-  macvlan:
+  alpha:
     driver: macvlan
     driver_opts:
       parent: eth0
