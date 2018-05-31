@@ -3,6 +3,7 @@ services:
   portainer:
     image: portainer/portainer:arm
     container_name: portainer
+    restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /mnt/RAIDZ/Docker/portainer:/data
@@ -11,6 +12,7 @@ services:
   influxdb:
     image: influxdb:latest
     container_name: influxdb
+    restart: always
     ports:
       - 8086:8086
       - 2003:2003
@@ -20,6 +22,7 @@ services:
   telegraf:
     image: telegraf:latest
     container_name: telegraf
+    restart: always
     links:
       - influxdb
     depends_on:
@@ -30,6 +33,7 @@ services:
   grafana:
     image: fg2it/grafana-armhf:v5.0.4
     container_name: grafana
+    restart: always
     ports:
       - 3000:3000
     links:
@@ -43,6 +47,7 @@ services:
   mariadb:
     image: lsioarmhf/mariadb:latest
     container_name: mariadb
+    restart: always
     ports:
       - 3306:3306
     volumes:
@@ -127,16 +132,6 @@ services:
       - PGID=8675309
       - PUID=8675309
       - TZ=Europe/London
-  speedtest:
-    build: /mnt/RAIDZ/Docker/speedtest
-    container_name: speedtest
-    links:
-      - influxdb
-    environment:
-      - INFLUXDB_DATABASE=speedtests
-      - INFLUXDB_HOST=influxdb
-      - INFLUXDB_PORT=8086
-      - SPEEDTEST_FRQUENCY=3600
 networks:
   alpha:
     driver: macvlan
