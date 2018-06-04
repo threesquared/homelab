@@ -132,6 +132,17 @@ services:
       - PGID=8675309
       - PUID=8675309
       - TZ=Europe/London
+  logstash:
+    build: ./logstash
+    command: ["-f", "/etc/logstash"]
+    container_name: logstash
+    ports:
+      - 5140:5140
+      - 5140:5140/udp
+    links:
+      - influxdb
+    volumes:
+      - /mnt/RAIDZ/Docker/logstash:/etc/logstash
 networks:
   alpha:
     driver: macvlan
