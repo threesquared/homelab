@@ -134,7 +134,6 @@ services:
       - TZ=Europe/London
   logstash:
     build: ./logstash
-    command: ["-f", "/etc/logstash"]
     container_name: logstash
     ports:
       - 5140:5140
