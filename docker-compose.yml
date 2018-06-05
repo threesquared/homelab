@@ -38,12 +38,13 @@ services:
       - 3000:3000
     links:
       - influxdb
+      - elasticsearch
     depends_on:
       - influxdb
     volumes:
      - /mnt/RAIDZ/Docker/grafana:/var/lib/grafana
     environment:
-     - GF_INSTALL_PLUGINS=ntop-ntopng-datasource
+     - GF_INSTALL_PLUGINS=ntop-ntopng-datasource,grafana-piechart-panel,grafana-worldmap-panel
   mariadb:
     image: lsioarmhf/mariadb:latest
     container_name: mariadb
@@ -139,9 +140,15 @@ services:
       - 5140:5140
       - 5140:5140/udp
     links:
-      - influxdb
+      - elasticsearch
     volumes:
       - /mnt/RAIDZ/Docker/logstash:/etc/logstash
+  elasticsearch:
+    image: ind3x/rpi-elasticsearch
+    container_name: elasticsearch
+    volumes:
+      - /mnt/RAIDZ/Docker/elasticsearch/config:/usr/share/elasticsearch/config
+      - /mnt/RAIDZ/Docker/elasticsearch/data:/usr/share/elasticsearch/data
 networks:
   alpha:
     driver: macvlan
