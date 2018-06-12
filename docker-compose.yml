@@ -143,12 +143,19 @@ services:
       - elasticsearch
     volumes:
       - /mnt/RAIDZ/Docker/logstash:/etc/logstash
-  elasticsearch:
-    image: ind3x/rpi-elasticsearch
-    container_name: elasticsearch
+  sonarr:
+    image: lsioarmhf/sonarr:latest
+    container_name: sonarr
+    ports:
+      - 8989:8989
+    links:
+      - transmission
     volumes:
-      - /mnt/RAIDZ/Docker/elasticsearch/config:/usr/share/elasticsearch/config
-      - /mnt/RAIDZ/Docker/elasticsearch/data:/usr/share/elasticsearch/data
+      - /mnt/RAIDZ/Docker/sonarr:/config
+      - /mnt/RAIDZ:/mnt/RAIDZ
+    environment:
+      - PGID=8675309
+      - PUID=8675309
 networks:
   alpha:
     driver: macvlan
