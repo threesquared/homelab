@@ -38,7 +38,6 @@ services:
       - 3000:3000
     links:
       - influxdb
-      - elasticsearch
     depends_on:
       - influxdb
     volumes:
@@ -139,8 +138,6 @@ services:
     ports:
       - 5140:5140
       - 5140:5140/udp
-    links:
-      - elasticsearch
     volumes:
       - /mnt/RAIDZ/Docker/logstash:/etc/logstash
   sonarr:
