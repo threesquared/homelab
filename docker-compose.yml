@@ -140,19 +140,11 @@ services:
       - 5140:5140/udp
     volumes:
       - /mnt/RAIDZ/Docker/logstash:/etc/logstash
-  sonarr:
-    image: lsioarmhf/sonarr:latest
-    container_name: sonarr
-    ports:
-      - 8989:8989
-    links:
-      - transmission
+  nest:
+    build: ./nest
+    container_name: nest
     volumes:
-      - /mnt/RAIDZ/Docker/sonarr:/config
-      - /mnt/RAIDZ:/mnt/RAIDZ
-    environment:
-      - PGID=8675309
-      - PUID=8675309
+      - /mnt/RAIDZ/Docker/nest/config.yaml:/go/src/GoNestThermostatAPIRest/config.yaml:ro
 networks:
   alpha:
     driver: macvlan
