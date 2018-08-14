@@ -12,7 +12,6 @@ services:
   influxdb:
     image: influxdb:latest
     container_name: influxdb
-    restart: always
     ports:
       - 8086:8086
       - 2003:2003
@@ -22,7 +21,6 @@ services:
   telegraf:
     image: telegraf:latest
     container_name: telegraf
-    restart: always
     links:
       - influxdb
     depends_on:
@@ -38,12 +36,10 @@ services:
       - 3000:3000
     links:
       - influxdb
-    depends_on:
-      - influxdb
     volumes:
-     - /mnt/RAIDZ/Docker/grafana:/var/lib/grafana
+      - /mnt/RAIDZ/Docker/grafana:/var/lib/grafana
     environment:
-     - GF_INSTALL_PLUGINS=ntop-ntopng-datasource,grafana-piechart-panel,grafana-worldmap-panel
+      - GF_INSTALL_PLUGINS=ntop-ntopng-datasource,grafana-piechart-panel,grafana-worldmap-panel
   mariadb:
     image: lsioarmhf/mariadb:latest
     container_name: mariadb
@@ -60,8 +56,9 @@ services:
     image: lsioarmhf/kodi-headless:latest
     container_name: kodi
     ports:
-      - 8082:8080
+      - 8082:8082
       - 9777:9777/udp
+      - 9090:9090
     links:
       - mariadb
     depends_on:
@@ -76,6 +73,7 @@ services:
   resilio:
     image: lsioarmhf/resilio-sync:latest
     container_name: resilio
+    restart: always
     ports:
       - 8888:8888
       - 55555:55555
@@ -90,6 +88,7 @@ services:
   transmission:
     image: lsioarmhf/transmission:latest
     container_name: transmission
+    restart: always
     ports:
       - 9091:9091
       - 51413:51413
@@ -107,6 +106,7 @@ services:
   couchpotato:
     image: lsioarmhf/couchpotato:latest
     container_name: couchpotato
+    restart: always
     ports:
       - 5050:5050
     links:
@@ -121,6 +121,7 @@ services:
   sickrage:
     image: lsioarmhf/sickrage:latest
     container_name: sickrage
+    restart: always
     ports:
       - 8083:8081
     links:
@@ -140,11 +141,6 @@ services:
       - 5140:5140/udp
     volumes:
       - /mnt/RAIDZ/Docker/logstash:/etc/logstash
-  nest:
-    build: ./nest
-    container_name: nest
-    volumes:
-      - /mnt/RAIDZ/Docker/nest/config.yaml:/go/src/GoNestThermostatAPIRest/config.yaml:ro
 networks:
   alpha:
     driver: macvlan
