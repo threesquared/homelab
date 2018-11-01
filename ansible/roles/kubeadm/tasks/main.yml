@@ -1,0 +1,4 @@
+---
+- apk:
+    name: docker, kubernetes
+    update_cache: yes
