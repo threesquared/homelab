@@ -1,15 +1,15 @@
 ---
-- name: create the 'ben' user
-  user: name=ben append=yes state=present createhome=yes shell=/bin/bash
+- name: create user
+  user: name={{ username }} append=yes state=present createhome=yes shell=/bin/bash
 
-- name: allow 'ben' to have passwordless sudo
+- name: allow user to have passwordless sudo
   lineinfile:
     dest: /etc/sudoers
-    line: 'ben ALL=(ALL) NOPASSWD: ALL'
+    line: '{{ username }} ALL=(ALL) NOPASSWD: ALL'
     validate: 'visudo -cf %s'
 
-- name: set up authorized keys for the ben user
-  authorized_key: user=ben key="{{item}}"
+- name: set up authorized keys for the user
+  authorized_key: user={{ username }} key="{{ item }}"
   with_file:
     - ~/.ssh/id_rsa.pub
 
