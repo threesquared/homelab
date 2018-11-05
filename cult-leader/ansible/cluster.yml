@@ -1,12 +1,12 @@
 - hosts: all
   roles:
     - common
-    - kubeadm
+    - kubernetes
 
 - hosts: leader
   roles:
     - leader
 
-- hosts: all:!leader
+- hosts: members
   roles:
     - members

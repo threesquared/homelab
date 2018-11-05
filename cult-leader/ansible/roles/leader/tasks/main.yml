@@ -1,4 +1,36 @@
 ---
-- name: Reset Kubernetes Master
-  shell: kubeadm reset -f
-  register: kubeadm_reset
+- name: Initialize Master
+  shell: kubeadm init --pod-network-cidr=172.30.0.0/16
+
+- name: create .kube directory
+  become_user: ben
+  file:
+    path: $HOME/.kube
+    state: directory
+    mode: 0755
+
+- name: copy admin.conf to user's kube config
+  copy:
+    src: /etc/kubernetes/admin.conf
+    dest: /home/ben/.kube/config
+    remote_src: yes
+    owner: ben
+
+- name: install Pod network
+  become_user: ben
+  shell: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.9.1/Documentation/kube-flannel.yml
+
+- name: taint master node
+  become_user: ben
+  shell: kubectl taint nodes --all node-role.kubernetes.io/master-
+
+- name: get join command
+  shell: kubeadm token create --print-join-command
+  register: join_command_raw
+
+- name: set join command
+  set_fact:
+    join_command: "{{ join_command_raw.stdout_lines[0] }}"
+
+- name: launch Kubernetes dashboard service
+  command: "kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml"

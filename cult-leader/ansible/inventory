@@ -1,5 +1,8 @@
-cult-leader        ansible_host=192.168.10.90
-cult-member-001    ansible_host=192.168.10.91
-
 [leader]
-cult-leader
+cult-leader      ansible_host=192.168.10.80
+
+[members]
+cult-member-1    ansible_host=192.168.10.81
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3

@@ -1,14 +1,19 @@
 ---
-- name: Ensure hostname set
-  hostname: name={{ inventory_hostname }}
-  when: not inventory_hostname is match('(\d{1,3}\.){3}\d{1,3}')
-  register: hostname
-  tags: hostname
+- name: create the 'ben' user
+  user: name=ben append=yes state=present createhome=yes shell=/bin/bash
 
-- name: Ensure hostname is in /etc/hosts
+- name: allow 'ben' to have passwordless sudo
   lineinfile:
-    dest=/etc/hosts
-    regexp="^{{ ansible_default_ipv4.address }}.+$"
-    line="{{ ansible_default_ipv4.address }} {{ ansible_fqdn }} {{ ansible_hostname }}"
-  register: hostname
-  tags: hostname
+    dest: /etc/sudoers
+    line: 'ben ALL=(ALL) NOPASSWD: ALL'
+    validate: 'visudo -cf %s'
+
+- name: set up authorized keys for the ben user
+  authorized_key: user=ben key="{{item}}"
+  with_file:
+    - ~/.ssh/id_rsa.pub
+
+- name: install base packages
+  apt:
+    name: apt-transport-https
+    state: present

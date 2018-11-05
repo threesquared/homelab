@@ -2,16 +2,26 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "maier/alpine-3.7-x86_64"
-  config.vm.box_version = "3.7.0"
-  config.vm.hostname = "cult-leader"
+
+  config.vm.define "cult-leader", primary: true do |machine|
+    machine.vm.box = "ubuntu/bionic64"
+    machine.vm.hostname = "cult-leader"
+    machine.vm.network 'private_network', ip: "192.168.10.80"
+  end
+
+  config.vm.define "cult-member-1" do |machine|
+    machine.vm.box = "ubuntu/bionic64"
+    machine.vm.hostname = "cult-member-1"
+    machine.vm.network 'private_network', ip: "192.168.10.81"
+  end
 
   config.ssh.insert_key = false
-
-  config.vm.provision "shell", inline: "sudo apk --update --no-cache add python"
 
   config.vm.provision "ansible" do |ansible|
     ansible.verbose = "v"
     ansible.playbook = "cluster.yml"
+    ansible.extra_vars = {
+        ansible_python_interpreter: "/usr/bin/python3"
+    }
   end
 end
