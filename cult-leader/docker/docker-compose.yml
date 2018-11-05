@@ -135,7 +135,7 @@ services:
       - PUID=8675309
       - TZ=Europe/London
   logstash:
-    build: ./logstash
+    build: logstash
     container_name: logstash
     ports:
       - 5140:5140

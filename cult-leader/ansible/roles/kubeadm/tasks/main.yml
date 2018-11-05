@@ -1,0 +1,11 @@
+---
+- apk:
+    name: docker
+    state: present
+    update_cache: yes
+
+- apk:
+    name: kubernetes
+    state: present
+    update_cache: yes
+    repository: http://dl-3.alpinelinux.org/alpine/edge/testing

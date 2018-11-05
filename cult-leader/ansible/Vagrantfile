@@ -1,0 +1,17 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "maier/alpine-3.7-x86_64"
+  config.vm.box_version = "3.7.0"
+  config.vm.hostname = "cult-leader"
+
+  config.ssh.insert_key = false
+
+  config.vm.provision "shell", inline: "sudo apk --update --no-cache add python"
+
+  config.vm.provision "ansible" do |ansible|
+    ansible.verbose = "v"
+    ansible.playbook = "cluster.yml"
+  end
+end

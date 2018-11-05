@@ -1,0 +1,5 @@
+cult-leader        ansible_host=192.168.10.90
+cult-member-001    ansible_host=192.168.10.91
+
+[leader]
+cult-leader
