@@ -3,7 +3,7 @@ Config files for home lab servers
 
 ## Diagram
 
-![Diagram](digaram/digaram.png?raw=true "Diagram")
+![Diagram](diagram/diagram.png)
 
 ### Resources
 
