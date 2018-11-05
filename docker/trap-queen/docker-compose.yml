@@ -1,0 +1,8 @@
+version: '2.0'
+services:
+  cowrie:
+    restart: always
+    build: ./docker-cowrie
+    container_name: cowrie
+    ports:
+      - 2222:2222

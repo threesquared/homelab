@@ -5,6 +5,14 @@ Config files for home lab servers
 
 ![Diagram](diagram/diagram.png)
 
+## Ansible
+
+This contains ansible config for all hosts
+
+## Docker
+
+This contains docker-compose configs for docker hosts
+
 ### Resources
 
 https://github.com/mrlesmithjr/ansible-rpi-k8s-cluster/blob/master/playbooks/bootstrap.yml
