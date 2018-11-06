@@ -21,3 +21,4 @@ https://github.com/rak8s/rak8s/blob/master/roles/kubeadm/tasks/main.yml
 https://www.digitalocean.com/community/tutorials/how-to-create-a-kubernetes-1-10-cluster-using-kubeadm-on-ubuntu-16-04
 http://michele.sciabarra.com/2018/02/12/devops/Kubernetes-with-KubeAdm-Ansible-Vagrant/
 https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/
+https://vadosware.io/post/hetzner-fresh-ubuntu-install-to-single-node-kubernetes-cluster-with-ansible/
