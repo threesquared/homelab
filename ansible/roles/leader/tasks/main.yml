@@ -19,7 +19,7 @@
   copy:
     src: /etc/kubernetes/admin.conf
     dest: /home/ben/.kube/config
-    remote_src: yesl
+    remote_src: yes
     owner: ben
   when: kubeadm_init
 
