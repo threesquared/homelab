@@ -1,8 +1,8 @@
 [leader]
-cult-leader      ansible_host=192.168.10.80
+charles.cult.mansyard.uk  ansible_host=192.168.10.80
 
 [members]
-cult-member-1    ansible_host=192.168.10.81
+linda.cult.mansyard.uk    ansible_host=192.168.10.81
 
 [all:vars]
 ansible_python_interpreter=/usr/bin/python3

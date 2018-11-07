@@ -22,3 +22,7 @@ https://www.digitalocean.com/community/tutorials/how-to-create-a-kubernetes-1-10
 http://michele.sciabarra.com/2018/02/12/devops/Kubernetes-with-KubeAdm-Ansible-Vagrant/
 https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/
 https://vadosware.io/post/hetzner-fresh-ubuntu-install-to-single-node-kubernetes-cluster-with-ansible/
+https://github.com/geerlingguy/ansible-role-kubernetes
+https://medium.com/@evnsio/managing-my-home-with-kubernetes-traefik-and-raspberry-pis-d0330effea9a
+https://github.com/hypriot/blog/blob/master/content/post/setup-kubernetes-raspberry-pi-cluster.md
+https://medium.com/@joatmon08/playing-with-kubeadm-in-vagrant-machines-part-2-bac431095706

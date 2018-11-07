@@ -1,9 +1,4 @@
 ---
-- name: reset kubernetes
-  shell: kubeadm reset -f
-  register: kubeadm_reset
-
 - name: join cluster
-  shell: "{{ hostvars['cult-leader']['join_command'] }}"
-  when: kubeadm_reset is succeeded
+  shell: "{{ hostvars['charles.cult.mansyard.uk']['join_command'] }}"
   register: kubeadm_join
