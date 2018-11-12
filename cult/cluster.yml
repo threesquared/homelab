@@ -5,7 +5,7 @@
 - hosts: leader
   roles:
     - role: kubernetes
-      mode: node
+      mode: master
 
 - hosts: members
   roles:

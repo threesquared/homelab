@@ -5,7 +5,7 @@
   when: kubernetes_initialised.stat.exists == false
 
 - name: create .kube directory
-  become_user: ben
+  become_user: {{ username }}
   file:
     path: $HOME/.kube
     state: directory
@@ -14,9 +14,9 @@
 - name: copy admin.conf to user's kube config
   copy:
     src: /etc/kubernetes/admin.conf
-    dest: /home/ben/.kube/config
+    dest: /home/{{ username }}/.kube/config
     remote_src: yes
-    owner: ben
+    owner: {{ username }}
   when: kubeadm_init
 
 - name: install Weave network
@@ -26,7 +26,7 @@
     kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$kubever"
 
 - name: taint master node
-  become_user: ben
+  become_user: {{ username }}
   shell: kubectl taint nodes --all node-role.kubernetes.io/master-
   when: kubernetes_initialised.stat.exists == false
 
@@ -39,5 +39,5 @@
     join_command: "{{ join_command_raw.stdout_lines[0] }}"
 
 - name: launch Kubernetes dashboard service
-  become_user: ben
+  become_user: {{ username }}
   command: "kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml"
