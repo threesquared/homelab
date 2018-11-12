@@ -23,7 +23,7 @@ This contains docker-compose config for the Raspberry Pi Cowrie SSH honeypot.
 
 This contains an encrypted config for my pfSense firewall.
 
-[Link](./trap-house)
+[Link](./blackstar)
 
 # Resources
 
