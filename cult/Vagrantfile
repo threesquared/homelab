@@ -3,22 +3,25 @@
 
 Vagrant.configure("2") do |config|
 
-  config.vm.define "charles.cult.mansyard.uk" do |machine|
-    machine.vm.box = "ubuntu/bionic64"
-    machine.vm.hostname = "charles.cult.mansyard.uk"
+  config.vm.define "charles" do |machine|
+    machine.vm.box = "debian/stretch64"
+    machine.vm.hostname = "charles"
     machine.vm.network 'private_network', ip: "192.168.10.80"
   end
 
-  config.vm.define "linda.cult.mansyard.uk" do |machine|
-    machine.vm.box = "ubuntu/bionic64"
-    machine.vm.hostname = "linda.cult.mansyard.uk"
+  config.vm.define "linda" do |machine|
+    machine.vm.box = "debian/stretch64"
+    machine.vm.hostname = "linda"
     machine.vm.network 'private_network', ip: "192.168.10.81"
 
     machine.vm.provision "ansible" do |ansible|
       ansible.verbose = "v"
       ansible.playbook = "cluster.yml"
-      ansible.inventory_path = "inventory"
       ansible.limit = "all"
+      ansible.groups = {
+        "leader" => ["charles"],
+        "members" => ["linda"],
+      }
       ansible.extra_vars = {
         ansible_python_interpreter: "/usr/bin/python3"
       }

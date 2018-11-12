@@ -1,0 +1,25 @@
+---
+- name: install docker
+  include_tasks: docker.yml
+
+- name: install kubernetes
+  include_tasks: kubernetes.yml
+
+- name: check if Kubernetes has already been initialised.
+  stat:
+    path: /etc/kubernetes/admin.conf
+  register: kubernetes_initialised
+
+#- name: set node ip manually for vagrant multi-interface env
+#  lineinfile:
+#    path: /etc/default/kubelet
+#    regexp: '^KUBELET_EXTRA_ARGS='
+#    line: 'KUBELET_EXTRA_ARGS=--node-ip={{ ansible_host }}'
+
+- name: setup master
+  include_tasks: master.yml
+  when: mode == "master"
+
+- name: setup worker
+  include_tasks: worker.yml
+  when: mode == "worker"

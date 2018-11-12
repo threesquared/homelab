@@ -1,0 +1,28 @@
+---
+- name: update and upgrade apt packages
+  become: true
+  apt:
+    upgrade: yes
+    update_cache: yes
+
+- name: do dist-upgrade
+  become: true
+  apt:
+    upgrade: dist
+
+- name: install base packages
+  apt:
+    name: "{{ item }}"
+    force_apt_get: yes
+    state: present
+  with_items:
+    - apt-transport-https
+    - htop
+    - curl
+    - lsof
+    - dnsutils
+
+#- name: load the aufs module
+#  modprobe:
+#    name: aufs
+#    state: present

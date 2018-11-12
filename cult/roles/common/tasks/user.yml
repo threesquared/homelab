@@ -11,9 +11,5 @@
 - name: set up authorized keys for the user
   authorized_key: user={{ username }} key="{{ item }}"
   with_file:
-    - ~/.ssh/id_rsa.pub
-
-- name: install base packages
-  apt:
-    name: apt-transport-https
-    state: present
+  - ~/.ssh/id_rsa.pub
+  register: add_identity_key

@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: couchpotato
+    kubernetes.io/name: "couchpotato"
+  name: couchpotato
+spec:
+  ports:
+  - name: couchpotato
+    port: 80
+    targetPort: 5050
+  selector:
+    app: couchpotato
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: couchpotato
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: couchpotato
+    spec:
+      containers:
+      - env:
+        - name: PGID
+          value: "8675309"
+        - name: PUID
+          value: "8675309"
+        - name: TZ
+          value: Europe/London
+        image: linuxserver/couchpotato:latest
+        name: couchpotato
+        ports:
+        - containerPort: 5050
+        volumeMounts:
+        - mountPath: /config
+          name: config
+        - mountPath: /mnt/RAIDZ
+          name: raidz
+      restartPolicy: Always
+      volumes:
+      - name: config
+        hostPath:
+          path: /mnt/RAIDZ/Docker/couchpotato
+      - name: raidz
+        persistentVolumeClaim:
+          claimName: raidz
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: couchpotato
+spec:
+  rules:
+  - host: movies.mansyard.uk
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: couchpotato
+          servicePort: 80

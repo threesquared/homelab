@@ -1,0 +1,15 @@
+---
+- name: set up user
+  include_tasks: user.yml
+
+- name: secure ssh
+  include_tasks: ssh.yml
+
+- name: install packages
+  include_tasks: packages.yml
+
+- name: configure networking
+  include_tasks: networking.yml
+
+- name: odroid specific tasks
+  include_tasks: odroid.yml

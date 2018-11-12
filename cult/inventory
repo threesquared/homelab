@@ -1,0 +1,8 @@
+[leader]
+charles  ansible_host=192.168.0.11
+
+[members]
+linda    ansible_host=192.168.0.10
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3

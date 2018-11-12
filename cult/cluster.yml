@@ -1,12 +1,13 @@
 - hosts: all
   roles:
     - common
-    - kubernetes
 
 - hosts: leader
   roles:
-    - leader
+    - role: kubernetes
+      mode: node
 
 - hosts: members
   roles:
-    - members
+    - role: kubernetes
+      mode: worker

@@ -1,0 +1,19 @@
+---
+- name: add Docker apt-key
+  apt_key:
+    id: 0EBFCD88
+    url: https://download.docker.com/linux/debian/gpg
+    state: present
+
+- name: add Docker APT repository
+  apt_repository:
+    repo: deb https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable
+    state: present
+
+- name: install docker-ce
+  apt:
+    force_apt_get: yes
+    update_cache: yes
+    name:
+      - docker-ce # Pin version for kubernetes?
+    state: present
