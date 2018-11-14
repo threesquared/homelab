@@ -1,15 +1,27 @@
 # ODROID C2 Kubernetes Cluster
 
-This is the Ansible playbook and Kubernetes config files for my Kubernetes cluster
-on several ODROID C2's running Armbian Stretch.
+This is the Ansible playbook and Kubernetes config files for my services cluster running on
+Armbian Stretch on several ODROID C2's.
 
 ## Usage
 
-You can apply the playbooks to your inventory with the command:
+Update the `inventory` file to reflect your hosts. Then you can apply the playbooks to your inventory with the command:
 
-`$ ansible-playbook -i inventory -u root -k cluster.yml`
+`$ ansible-playbook -i inventory -u root -k ./ansible/cluster.yml`
 
-## Pods
+You can then use the generated admin.conf to connect to the cluster:
+
+`$ kubectl --kubeconfig ./ansible/artifacts/admin.conf get nodes`
+
+And apply all the included Kubernetes configs:
+
+`$ kubectl --kubeconfig ./ansible/artifacts/admin.conf apply -f ./kubernetes`
+
+Or just a specific config:
+
+`$ kubectl --kubeconfig ./ansible/artifacts/admin.conf apply -f ./kubernetes/couchpotato`
+
+## Kubernetes Configs
 
 * [Traefik](./kubernetes/traefik) - Ingress Controller
 * InfluxDB - Metric database
@@ -23,6 +35,12 @@ You can apply the playbooks to your inventory with the command:
 * SiCKRAGE - TV download management
 * Logstash - Collect logs from pfSense
 
+## Development
+
+You can bring up Vagrant machines to test ansible locally.
+
+`$ cd ansible && vagrant up`
+
 ## Hardware
 
 * Platform: ODROID C2
@@ -35,12 +53,6 @@ You can apply the playbooks to your inventory with the command:
 ##### Worker nodes
 * Linda
 
-## Development
-
-You can bring up two Vagrant machines to test locally.
-
-`$ vagrant up`
-
 ## Todo
 
 * set nameservers? - fix 120.0.0.53 bullshit
@@ -49,10 +61,9 @@ You can bring up two Vagrant machines to test locally.
 * remove ExecStartPre line from containerd?
 * reboot after dist upgrade to modprobe?
 * disable swap - /etc/default/armbian-zram-config
+* fix admin.conf
 
 ## Resources
-
-Various links
 
 * https://github.com/mrlesmithjr/ansible-rpi-k8s-cluster/blob/master/playbooks/bootstrap.yml
 * https://github.com/Project31/ansible-kubernetes-openshift-pi3/blob/master/roles/kubernetes/tasks/apt.yml

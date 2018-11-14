@@ -1,9 +1,10 @@
 # Homelab
-This repository contains config files for my various homelab servers.
+
+This repository contains config files and provisioning scripts for my various homelab servers.
 
 ## Diagram
 
-This is a digram of the network.
+This is a diagram of the network.
 
 ![Diagram](diagram/diagram.png)
 
@@ -15,7 +16,7 @@ This contains Ansible and Kubernetes configs for the main ODROID C2 kubernetes c
 
 ## Trap House
 
-This contains docker-compose config for the Raspberry Pi Cowrie SSH honeypot.
+This contains a docker-compose config for the Raspberry Pi Cowrie SSH honeypot.
 
 [Link](./trap-house)
 

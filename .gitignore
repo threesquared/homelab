@@ -1,3 +1,4 @@
 .vagrant
 cluster.retry
 *-console.log
+admin.conf

@@ -10,9 +10,15 @@
     repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
     state: present
 
-- name: Disable swap
+- name: disable swap
   command: swapoff -a
   when: ansible_swaptotal_mb > 0
+
+- name: remove swapfile from /etc/fstab
+  mount:
+    name: swap
+    fstype: swap
+    state: absent
 
 - name: install kubelet, kubeadm, and kubectl
   apt:
