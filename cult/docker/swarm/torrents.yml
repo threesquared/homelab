@@ -3,7 +3,6 @@ version: '3.2'
 services:
   transmission:
     image: lsioarmhf/transmission:latest
-    container_name: transmission
     deploy:
       replicas: 1
       restart_policy:
@@ -21,7 +20,6 @@ services:
 
   couchpotato:
     image: lsioarmhf/couchpotato:latest
-    container_name: couchpotato
     deploy:
       replicas: 1
       restart_policy:
@@ -38,7 +36,6 @@ services:
 
   sickrage:
     image: lsioarmhf/sickrage:latest
-    container_name: sickrage
     deploy:
       replicas: 1
       restart_policy:

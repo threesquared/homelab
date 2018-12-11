@@ -3,7 +3,6 @@ version: '3.2'
 services:
   agent:
     image: portainer/agent
-    container_name: portainer-agent
     environment:
       AGENT_CLUSTER_ADDR: tasks.agent
     volumes:
@@ -17,7 +16,6 @@ services:
 
   portainer:
     image: portainer/portainer
-    container_name: portainer
     command: -H tcp://tasks.agent:9001 --tlsskipverify
     ports:
       - "9000:9000"

@@ -9,13 +9,12 @@
 
 - name: clone config files
   git:
-    repo: ssh://git@github.com/threesquared/homelab.git
-    dest: /home/{{ username }}/homelab
-  become_user: "{{ username }}"
+    repo: https://github.com/threesquared/homelab.git
+    dest: /opt/homelab
 
 - name: apply portainer configs
   docker_stack:
     state: present
     name: portainer
     compose:
-      - /home/{{ username }}/homelab/cult/docker/swarm/portainer.yml
+      - /opt/homelab/cult/docker/swarm/portainer.yml
