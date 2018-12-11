@@ -7,14 +7,15 @@
   shell: docker swarm join-token -q worker
   register: worker_token
 
-- name: copy docker stack configs
-  copy:
-    src: files/portainer.yml
-    dest: /opt/portainer.yml
+- name: clone config files
+  git:
+    repo: ssh://git@github.com/threesquared/homelab.git
+    dest: /home/{{ username }}/homelab
+  become_user: "{{ username }}"
 
-- name: apply docker stack configs
+- name: apply portainer configs
   docker_stack:
     state: present
     name: portainer
     compose:
-      - /opt/portainer.yml
+      - /home/{{ username }}/homelab/cult/docker/swarm/portainer.yml

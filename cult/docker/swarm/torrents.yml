@@ -1,0 +1,80 @@
+version: '3.2'
+
+services:
+  transmission:
+    image: lsioarmhf/transmission:latest
+    container_name: transmission
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    ports:
+      - 9091:9091
+      - 51413:51413
+    volumes:
+      - transmission_data:/config
+      - raidz:/mnt/RAIDZ
+    environment:
+      - PGID=8675309
+      - PUID=8675309
+      - TZ=Europe/London
+
+  couchpotato:
+    image: lsioarmhf/couchpotato:latest
+    container_name: couchpotato
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    ports:
+      - 5050:5050
+    volumes:
+      - couchpotato_data:/config
+      - raidz:/mnt/RAIDZ
+    environment:
+      - PGID=8675309
+      - PUID=8675309
+      - TZ=Europe/London
+
+  sickrage:
+    image: lsioarmhf/sickrage:latest
+    container_name: sickrage
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    ports:
+      - 8083:8081
+    volumes:
+      - sickrage_data:/config
+      - raidz:/mnt/RAIDZ
+    environment:
+      - PGID=8675309
+      - PUID=8675309
+      - TZ=Europe/London
+
+volumes:
+  raidz:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.0.3,nolock,soft,rw
+      device: ":/mnt/RAIDZ"
+  transmission_data:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.0.3,nolock,soft,rw
+      device: ":/mnt/RAIDZ/Docker/transmission"
+  couchpotato_data:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.0.3,nolock,soft,rw
+      device: ":/mnt/RAIDZ/Docker/couchpotato"
+  sickrage_data:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.0.3,nolock,soft,rw
+      device: ":/mnt/RAIDZ/Docker/sickrage"
