@@ -1,10 +1,7 @@
 ---
-#- name: disable armbian zram
-#  lineinfile:
-#    path: /etc/default/armbian-zram-config
-#    line: '127.0.0.1 {{ inventory_hostname }}'
-
-#- name: set nographics in boot.ini
-#  lineinfile:
-#    path: /boot/boot.ini
-#    line: 'setenv nographics "1"'
+- name: disable armbian zram
+  lineinfile:
+    path: /etc/default/armbian-zram-config
+    regexp: '^ENABLED=true'
+    line: 'ENABLED=false'
+  when: is_vagrant is not defined

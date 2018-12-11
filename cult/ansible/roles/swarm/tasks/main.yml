@@ -1,0 +1,13 @@
+---
+- name: get docker info
+  shell: docker info
+  register: docker_info
+  changed_when: false
+
+- name: setup manager
+  include_tasks: manager.yml
+  when: mode == "manager"
+
+- name: setup worker
+  include_tasks: worker.yml
+  when: mode == "worker"

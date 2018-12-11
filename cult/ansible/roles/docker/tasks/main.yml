@@ -15,5 +15,18 @@
     force_apt_get: yes
     update_cache: yes
     name:
-      - docker-ce # Pin version for kubernetes?
+      - docker-ce
     state: present
+
+- name: install python packages
+  pip:
+    name: [
+      jsondiff,
+      pyyaml
+    ]
+
+- name: add user to docker group
+  user:
+    name: "{{ username }}"
+    append: yes
+    groups: docker

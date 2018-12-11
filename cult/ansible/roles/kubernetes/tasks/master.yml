@@ -1,6 +1,6 @@
 ---
 - name: initialize master node
-  shell: kubeadm init --apiserver-advertise-address={{ ansible_host }} --pod-network-cidr=172.30.0.0/16 --ignore-preflight-errors=SystemVerification # Skip docker version check
+  shell: kubeadm init --ignore-preflight-errors=SystemVerification # Skip docker version check
   register: kubeadm_init
   when: kubernetes_initialised.stat.exists == false
 
@@ -48,8 +48,3 @@
     export KUBECONFIG=/etc/kubernetes/admin.conf ;
     export kubever=$(kubectl version 2> /dev/null | base64 | tr -d '\n') ;
     kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$kubever"
-
-- name: launch Kubernetes dashboard service
-  shell: >
-    export KUBECONFIG=/etc/kubernetes/admin.conf ;
-    kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml

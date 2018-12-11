@@ -1,6 +1,11 @@
 ---
 - name: create user
-  user: name={{ username }} append=yes state=present createhome=yes shell=/bin/bash
+  user:
+    name: "{{ username }}"
+    append: yes
+    state: present
+    createhome: yes
+    shell: /bin/bash
 
 - name: allow user to have passwordless sudo
   lineinfile:
@@ -11,5 +16,5 @@
 - name: set up authorized keys for the user
   authorized_key: user={{ username }} key="{{ item }}"
   with_file:
-  - ~/.ssh/id_rsa.pub
+    - ~/.ssh/id_rsa.pub
   register: add_identity_key

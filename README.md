@@ -10,7 +10,7 @@ This is a diagram of the network.
 
 ## Cult
 
-This contains Ansible and Kubernetes configs for the main ODROID C2 kubernetes cluster.
+This contains Ansible and configs for the main ODROID C2 Docker Swarm cluster.
 
 [Link](./cult)
 

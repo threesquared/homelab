@@ -1,0 +1,20 @@
+---
+- name: create swarm as manager
+  shell: docker swarm init --advertise-addr {{ ansible_eth0['ipv4']['address'] }}
+  when: "docker_info.stdout.find('Swarm: inactive') != -1"
+
+- name: get swarm worker token
+  shell: docker swarm join-token -q worker
+  register: worker_token
+
+- name: copy docker stack configs
+  copy:
+    src: files/portainer.yml
+    dest: /opt/portainer.yml
+
+- name: apply docker stack configs
+  docker_stack:
+    state: present
+    name: portainer
+    compose:
+      - /opt/portainer.yml

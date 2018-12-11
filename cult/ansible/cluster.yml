@@ -1,13 +1,14 @@
 - hosts: all
   roles:
     - common
+    - docker
 
 - hosts: leader
   roles:
-    - role: kubernetes
-      mode: master
+    - role: swarm
+      mode: manager
 
 - hosts: members
   roles:
-    - role: kubernetes
+    - role: swarm
       mode: worker

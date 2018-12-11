@@ -1,6 +1,6 @@
-# ODROID C2 Kubernetes Cluster
+# ODROID C2 Docker Swarm
 
-This is the Ansible playbook and Kubernetes config files for my services cluster running on
+This is the Ansible playbook and docker swarm config files for my services cluster running on
 Armbian Stretch on several ODROID C2's.
 
 ## Usage
@@ -9,21 +9,20 @@ Update the `inventory` file to reflect your hosts. Then you can apply the playbo
 
 `$ ansible-playbook -i inventory -u root -k ./ansible/cluster.yml`
 
-You can then use the generated admin.conf to connect to the cluster:
+**Please note this requires an Ansible version >= 2.8**
 
-`$ kubectl --kubeconfig ./ansible/artifacts/admin.conf get nodes`
+## Flashing Commands
 
-And apply all the included Kubernetes configs:
+I am using the stable Stretch version of [Armbian](https://www.armbian.com/odroid-c2/).
 
-`$ kubectl --kubeconfig ./ansible/artifacts/admin.conf apply -f ./kubernetes`
+```bash
+$ diskutil list
+$ sudo diskutil unmount /dev/disk3s1
+$ sudo dd bs=1m if=Armbian_5.59_Odroidc2_Debian_stretch_next_4.18.8.img of=/dev/rdisk3
+```
 
-Or just a specific config:
+## Services
 
-`$ kubectl --kubeconfig ./ansible/artifacts/admin.conf apply -f ./kubernetes/couchpotato`
-
-## Kubernetes Configs
-
-* [Traefik](./kubernetes/traefik) - Ingress Controller
 * InfluxDB - Metric database
 * Telegraf - Metric collector
 * Grafana - Visualise metrics
@@ -31,7 +30,7 @@ Or just a specific config:
 * Kodi - Headless Kodi for media library updates
 * Resilio - Phone media backups
 * Transmission - Torrent downloads
-* [CouchPotato](./kubernetes/couchpotato) - Movie download management
+* CouchPotato - Movie download management
 * SiCKRAGE - TV download management
 * Logstash - Collect logs from pfSense
 
@@ -58,12 +57,9 @@ You can bring up Vagrant machines to test ansible locally.
 * set nameservers? - fix 120.0.0.53 bullshit
 * delete odroid user?
 * docker system prune cronjob
-* remove ExecStartPre line from containerd?
-* reboot after dist upgrade to modprobe?
-* disable swap - /etc/default/armbian-zram-config
-* fix admin.conf
+* disable swap? - /etc/default/armbian-zram-config
 
-## Resources
+## Misc Resources
 
 * https://github.com/mrlesmithjr/ansible-rpi-k8s-cluster/blob/master/playbooks/bootstrap.yml
 * https://github.com/Project31/ansible-kubernetes-openshift-pi3/blob/master/roles/kubernetes/tasks/apt.yml

@@ -12,17 +12,13 @@
 
 - name: install base packages
   apt:
-    name: "{{ item }}"
+    name: [
+      apt-transport-https,
+      htop,
+      curl,
+      lsof,
+      dnsutils,
+      python3-pip
+    ]
     force_apt_get: yes
     state: present
-  with_items:
-    - apt-transport-https
-    - htop
-    - curl
-    - lsof
-    - dnsutils
-
-#- name: load the aufs module
-#  modprobe:
-#    name: aufs
-#    state: present

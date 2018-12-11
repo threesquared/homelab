@@ -1,0 +1,6 @@
+---
+- name: join swarm as a worker
+  shell: "docker swarm join --token {{ hostvars['charles']['worker_token']['stdout'] }} {{ hostvars['charles']['ansible_eth1']['ipv4']['address'] }}:2377"
+  when: "docker_info.stdout.find('Swarm: inactive') != -1"
+  retries: 3
+  delay: 20
