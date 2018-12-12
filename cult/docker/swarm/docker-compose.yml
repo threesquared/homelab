@@ -173,25 +173,25 @@ volumes:
     driver: local
     driver_opts:
       type: nfs
-      o: nfsvers=4,addr=192.168.0.3,rw
+      o: addr=192.168.0.3,rw
       device: ":/mnt/RAIDZ"
   telegraf_config:
     driver: local
     driver_opts:
       type: nfs
-      o: nfsvers=4,addr=192.168.0.3,rw
+      o: addr=192.168.0.3,rw
       device: ":/mnt/RAIDZ/Docker/telegraf/telegraf.conf"
   influxdb_config:
     driver: local
     driver_opts:
       type: nfs
-      o: nfsvers=4,addr=192.168.0.3,rw
+      o: addr=192.168.0.3,rw
       device: ":/mnt/RAIDZ/Docker/influxdb/influxdb.conf"
   resilio_sync:
     driver: local
     driver_opts:
       type: nfs
-      o: nfsvers=4,addr=192.168.0.3,rw
+      o: addr=192.168.0.3,rw
       device: ":/mnt/RAIDZ/Backups/Photos/Sync"
   mariadb_data:
   influxdb_data:
