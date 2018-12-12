@@ -107,6 +107,8 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 3
+      placement:
+        constraints: [node.role == manager]
     ports:
       - 3306:3306
     volumes:
@@ -158,6 +160,9 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 3
+      resources:
+        limits:
+          cpus: '0.50'
     ports:
       - 8083:8081
     volumes:
