@@ -198,14 +198,44 @@ volumes:
       type: nfs
       o: addr=192.168.0.3,rw
       device: ":/mnt/RAIDZ/Backups/Photos/Sync"
+  logstash_data:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.0.3,rw
+      device: ":/mnt/RAIDZ/Docker/logstash"
+  transmission_data:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.0.3,rw
+      device: ":/mnt/RAIDZ/Docker/transmission"
+  couchpotato_data:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.0.3,rw
+      device: ":/mnt/RAIDZ/Docker/couchpotato"
+  sickrage_data:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.0.3,rw
+      device: ":/mnt/RAIDZ/Docker/sickrage"
+  kodi_data:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.0.3,rw
+      device: ":/mnt/RAIDZ/Docker/kodi"
+  resilio_data:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.0.3,rw
+      device: ":/mnt/RAIDZ/Docker/resilio/config"
+  resilio_downloads:
   mariadb_data:
   influxdb_data:
-  logstash_data:
   grafana_data:
-  transmission_data:
-  couchpotato_data:
-  sickrage_data:
-  kodi_data:
-  resilio_data:
-  resilio_downloads:
 
