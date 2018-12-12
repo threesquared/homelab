@@ -1,7 +1,6 @@
 # ODROID C2 Docker Swarm
 
-This is the Ansible playbook and docker swarm config files for my services cluster running on
-Armbian Stretch on several ODROID C2's.
+This is the Ansible playbook and docker configs for my network services cluster running on Armbian Stretch over several ODROID C2's.
 
 ## Usage
 
@@ -57,7 +56,8 @@ You can bring up Vagrant machines to test ansible locally.
 * set nameservers? - fix 120.0.0.53 bullshit
 * delete odroid user?
 * docker system prune cronjob
-* disable swap? - /etc/default/armbian-zram-config
+* do we need to disable swap? - /etc/default/armbian-zram-config
+* can we automate headless odroid boot mode?
 
 ## Misc Resources
 
