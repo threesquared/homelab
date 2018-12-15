@@ -1,13 +1,13 @@
 ---
-#- name: Disable empty password login
-#  lineinfile: dest=/etc/ssh/sshd_config regexp="^#?PermitEmptyPasswords" line="PermitEmptyPasswords no"
-#  notify: restart sshd
+- name: disable empty password login
+  lineinfile: dest=/etc/ssh/sshd_config regexp="^#?PermitEmptyPasswords" line="PermitEmptyPasswords no"
+  notify: restart sshd
 
-#- name: Disable remote root login
-#  lineinfile: dest=/etc/ssh/sshd_config regexp="^#?PermitRootLogin" line="PermitRootLogin no"
-#  notify: restart sshd
+- name: disable remote root login
+  lineinfile: dest=/etc/ssh/sshd_config regexp="^#?PermitRootLogin" line="PermitRootLogin no"
+  notify: restart sshd
 
-#- name: Disable password login
-#  lineinfile: dest=/etc/ssh/sshd_config regexp="^(#\s*)?PasswordAuthentication " line="PasswordAuthentication no"
-#  when: add_identity_key is success and not add_identity_key is skipped
-#  notify: restart sshd
+- name: disable password login
+  lineinfile: dest=/etc/ssh/sshd_config regexp="^(#\s*)?PasswordAuthentication " line="PasswordAuthentication no"
+  when: add_identity_key is success and not add_identity_key is skipped
+  notify: restart sshd

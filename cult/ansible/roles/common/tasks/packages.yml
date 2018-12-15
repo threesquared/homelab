@@ -18,7 +18,9 @@
       curl,
       lsof,
       dnsutils,
-      python3-pip
+      python3-setuptools,
+      python3-pip,
+      nfs-common
     ]
     force_apt_get: yes
     state: present

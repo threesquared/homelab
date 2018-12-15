@@ -1,8 +1,11 @@
 ---
-#- name: Ensure hostname set
-#  hostname: name={{ inventory_hostname }}
+- name: change hostname
+  hostname:
+    name: "{{ inventory_hostname }}"
 
-#- name: update hosts file
-#  lineinfile:
-#    path: /etc/hosts
-#    line: '127.0.0.1 {{ inventory_hostname }}'
+- name: update /etc/hosts
+  lineinfile:
+    dest: /etc/hosts
+    regexp: '^127\.0\.0\.1[ \t]+localhost'
+    line: '127.0.0.1 localhost {{ inventory_hostname }}'
+    state: present

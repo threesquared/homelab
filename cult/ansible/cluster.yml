@@ -1,14 +1,17 @@
 - hosts: all
+  become: yes
   roles:
     - common
     - docker
 
 - hosts: leader
+  become: yes
   roles:
     - role: swarm
       mode: manager
 
 - hosts: members
+  become: yes
   roles:
     - role: swarm
       mode: worker

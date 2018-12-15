@@ -21,6 +21,7 @@
 - name: install python packages
   pip:
     name: [
+      setuptools,
       jsondiff,
       pyyaml
     ]

@@ -16,5 +16,6 @@
   docker_stack:
     state: present
     name: portainer
+    resolve_image: never
     compose:
       - /opt/portainer.yml
