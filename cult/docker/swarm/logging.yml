@@ -1,0 +1,89 @@
+version: '3.5'
+
+services:
+  telegraf:
+    image: telegraf:latest
+    deploy:
+      mode: global
+      placement:
+        constraints: [node.platform.os == linux]
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+    depends_on:
+    - influxdb
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - telegraf_config:/etc/telegraf
+
+  grafana:
+    image: proxx/grafana-armv7:latest
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+    ports:
+    - 3000:3000
+    volumes:
+    - grafana_data:/var/lib/grafana
+    environment:
+    - GF_INSTALL_PLUGINS=ntop-ntopng-datasource,grafana-piechart-panel,grafana-worldmap-panel
+    networks:
+    - common
+
+  influxdb:
+    image: influxdb:latest
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+      resources:
+        limits:
+          memory: 500M
+    ports:
+    - 8086:8086
+    - 2003:2003
+    volumes:
+    - influxdb_config:/etc/influxdb
+    - influxdb_data:/var/lib/influxdb
+
+  logstash:
+    image: ind3x/rpi-logstash:latest
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+    ports:
+    - 5140:5140
+    - 5140:5140/udp
+    volumes:
+    - logstash_data:/etc/logstash
+
+volumes:
+  telegraf_config:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.0.3,nolock,soft,rw
+      device: ":/mnt/RAIDZ/Docker/telegraf"
+  influxdb_config:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.0.3,nolock,soft,rw
+      device: ":/mnt/RAIDZ/Docker/influxdb"
+  logstash_data:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.0.3,nolock,soft,rw
+      device: ":/mnt/RAIDZ/Docker/logstash"
+  grafana_data:
+  influxdb_data:
+
+networks:
+  common:
+    external: true
