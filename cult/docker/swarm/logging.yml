@@ -39,6 +39,8 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 3
+      placement:
+        constraints: [node.role == worker]
       resources:
         limits:
           memory: 500M

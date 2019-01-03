@@ -35,6 +35,8 @@ services:
     - PGID=8675309
     - PUID=8675309
     - TZ=Europe/London
+    networks:
+    - common
 
   sickrage:
     image: threesquared/sickchill:latest
@@ -52,6 +54,8 @@ services:
     - PGID=8675309
     - PUID=8675309
     - TZ=Europe/London
+    networks:
+    - common
 
 volumes:
   raidz:
@@ -80,5 +84,5 @@ volumes:
       device: ":/mnt/RAIDZ/Docker/sickrage"
 
 networks:
-  default:
-    name: default-net
+  common:
+    external: true
