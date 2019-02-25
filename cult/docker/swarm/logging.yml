@@ -15,11 +15,16 @@ services:
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
     - telegraf_config:/etc/telegraf
+    networks:
+    - common
 
   grafana:
     image: proxx/grafana-armv7:latest
     deploy:
       replicas: 1
+      placement:
+        constraints:
+        - node.platform.arch == aarch64
       restart_policy:
         condition: on-failure
         max_attempts: 3
@@ -50,19 +55,24 @@ services:
     volumes:
     - influxdb_config:/etc/influxdb
     - influxdb_data:/var/lib/influxdb
+    networks:
+    - common
 
   logstash:
     image: ind3x/rpi-logstash:latest
     deploy:
       replicas: 1
+      placement:
+        constraints:
+        - node.platform.arch == aarch64
       restart_policy:
         condition: on-failure
         max_attempts: 3
     ports:
     - 5140:5140
     - 5140:5140/udp
-    volumes:
-    - logstash_data:/etc/logstash
+    networks:
+    - common
 
 volumes:
   telegraf_config:
@@ -84,6 +94,11 @@ volumes:
       o: addr=192.168.0.3,nolock,soft,rw
       device: ":/mnt/RAIDZ/Docker/logstash"
   grafana_data:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.0.3,nolock,soft,rw
+      device: ":/mnt/RAIDZ/Docker/grafana"
   influxdb_data:
 
 networks:

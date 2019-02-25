@@ -5,6 +5,9 @@ services:
     image: lsioarmhf/kodi-headless:latest
     deploy:
       replicas: 1
+      placement:
+        constraints:
+        - node.platform.arch == aarch64
       restart_policy:
         condition: on-failure
         max_attempts: 3
@@ -52,6 +55,11 @@ volumes:
       o: addr=192.168.0.3,nolock,soft,rw
       device: ":/mnt/RAIDZ"
   kodi_data:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.0.3,nolock,soft,rw
+      device: ":/mnt/RAIDZ/Docker/kodi"
   mariadb_data:
 
 networks:
