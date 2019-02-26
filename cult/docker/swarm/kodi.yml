@@ -28,14 +28,15 @@ services:
     - common
 
   mariadb:
-    image: lsioarmhf/mariadb:latest
+    image: linuxserver/mariadb:latest
     deploy:
       replicas: 1
       restart_policy:
         condition: on-failure
         max_attempts: 3
       placement:
-        constraints: [node.role == manager]
+        constraints:
+        - node.platform.arch == x86_64
     ports:
     - 3306:3306
     volumes:

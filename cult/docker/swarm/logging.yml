@@ -19,12 +19,12 @@ services:
     - common
 
   grafana:
-    image: proxx/grafana-armv7:latest
+    image: grafana/grafana:latest
     deploy:
       replicas: 1
       placement:
         constraints:
-        - node.platform.arch == aarch64
+        - node.platform.arch == x86_64
       restart_policy:
         condition: on-failure
         max_attempts: 3
