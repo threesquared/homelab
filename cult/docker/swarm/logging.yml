@@ -60,7 +60,7 @@ services:
     - common
 
   logstash:
-    image: ind3x/rpi-logstash:latest
+    image: threesquared/logstash:latest
     deploy:
       replicas: 1
       placement:
@@ -72,6 +72,9 @@ services:
     ports:
     - 5140:5140
     - 5140:5140/udp
+    volumes:
+    - logstash_config:/usr/share/logstash/config
+    - logstash_pipeline:/usr/share/logstash/pipeline
     networks:
     - common
 
@@ -88,12 +91,18 @@ volumes:
       type: nfs
       o: addr=192.168.0.3,nolock,soft,rw
       device: ":/mnt/RAIDZ/Docker/influxdb"
-  logstash_data:
+  logstash_config:
     driver: local
     driver_opts:
       type: nfs
       o: addr=192.168.0.3,nolock,soft,rw
-      device: ":/mnt/RAIDZ/Docker/logstash"
+      device: ":/mnt/RAIDZ/Docker/logstash/config"
+  logstash_pipeline:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.0.3,nolock,soft,rw
+      device: ":/mnt/RAIDZ/Docker/logstash/pipeline"
   grafana_data:
     driver: local
     driver_opts:
