@@ -1,0 +1,57 @@
+version: '3.5'
+
+services:
+  resilio:
+    image: lsioarmhf/resilio-sync:latest
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+        - node.platform.arch == aarch64
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+    ports:
+    - 8888:8888
+    - 55555:55555
+    volumes:
+    - resilio_data:/config
+    - resilio_downloads:/downloads
+    - resilio_sync:/sync
+    environment:
+    - PGID=8675309
+    - PUID=8675309
+    - TZ=Europe/London
+
+  unifi:
+    image: lsioarmhf/unifi:latest
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+        - node.platform.arch == aarch64
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+    ports:
+    - 3478:3478/udp
+    - 10001:10001/udp
+    - 8080:8080
+    - 8081:8081
+    - 8443:8443
+    - 8843:8843
+    - 8880:8880
+    - 6789:6789
+    volumes:
+    - unifi_data:/config
+    environment:
+    - PGID=8675309
+    - PUID=8675309
+
+volumes:
+  unifi_data:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.0.3,nolock,soft,rw
+      device: ":/mnt/RAIDZ/Docker/unifi"
