@@ -49,7 +49,7 @@ services:
         - node.platform.arch == aarch64
       resources:
         limits:
-          memory: 500M
+          memory: 1024M
     ports:
     - 8086:8086
     - 2003:2003
@@ -90,7 +90,7 @@ volumes:
     driver_opts:
       type: nfs
       o: addr=192.168.0.3,nolock,soft,rw
-      device: ":/mnt/RAIDZ/Docker/influxdb"
+      device: ":/mnt/RAIDZ/Docker/influxdb/config"
   logstash_config:
     driver: local
     driver_opts:
@@ -110,6 +110,11 @@ volumes:
       o: addr=192.168.0.3,nolock,soft,rw
       device: ":/mnt/RAIDZ/Docker/grafana"
   influxdb_data:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.0.3,nolock,soft,rw
+      device: ":/mnt/RAIDZ/Docker/influxdb/data"
 
 networks:
   common:
