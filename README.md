@@ -1,6 +1,6 @@
 # Homelab
 
-This repository contains config files and provisioning scripts for my various homelab servers.
+This repository contains config files and provisioning scripts for my various servers at home.
 
 ## Diagram
 
@@ -8,20 +8,14 @@ This is a diagram of the network.
 
 ![Diagram](diagram/diagram.png)
 
-## Cult
+## Ansible
 
-This contains Ansible and configs for the main ODROID C2 Docker Swarm cluster.
+This contains Ansible playbooks to provision the main Docker Swarm cluster nodes.
 
-[Link](./cult)
+[Link](./ansible)
 
-## Trap House
+## Docker
 
-This contains a docker-compose config for the Raspberry Pi Cowrie SSH honeypot.
+This contains docker-compose configs for the main Docker Swarm and the SSH honeypot.
 
-[Link](./trap-house)
-
-## Blackstar
-
-This contains an encrypted config for my pfSense firewall.
-
-[Link](./blackstar)
+[Link](./docker)
