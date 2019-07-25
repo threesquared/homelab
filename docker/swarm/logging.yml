@@ -1,6 +1,17 @@
 version: '3.5'
 
 services:
+  logspout:
+    image: gliderlabs/logspout:latest
+    deploy:
+      mode: global
+    volumes:
+      - /etc/hostname:/etc/host_hostname:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: syslog+tls://logs3.papertrailapp.com:52169
+    networks:
+    - common
+
   telegraf:
     image: telegraf:latest
     deploy:
@@ -46,10 +57,10 @@ services:
         max_attempts: 3
       placement:
         constraints:
-        - node.platform.arch == aarch64
+        - node.platform.arch == x86_64
       resources:
         limits:
-          memory: 1024M
+          memory: 2048M
     ports:
     - 8086:8086
     - 2003:2003
@@ -60,12 +71,12 @@ services:
     - common
 
   logstash:
-    image: threesquared/logstash:latest
+    image: threesquared/logstash:x86
     deploy:
       replicas: 1
       placement:
         constraints:
-        - node.platform.arch == aarch64
+        - node.platform.arch == x86_64
       restart_policy:
         condition: on-failure
         max_attempts: 3
@@ -77,6 +88,14 @@ services:
     - logstash_pipeline:/usr/share/logstash/pipeline
     networks:
     - common
+
+  swarm-alert:
+    image: gpulidodt/swarm-alert:latest
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+    - PUSHOVER_USER_KEY: uWLEPQuu8BZR4XccQkrMbmRr5Fahxq
+    - PUSHOVER_API_TOKEN: a5eoxn792bgfq6hb94c967qfvksbsq
 
 volumes:
   telegraf_config:

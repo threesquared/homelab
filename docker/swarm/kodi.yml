@@ -2,7 +2,7 @@ version: '3.5'
 
 services:
   kodi:
-    image: lsioarmhf/kodi-headless:latest
+    image: linuxserver/kodi-headless:latest
     deploy:
       replicas: 1
       placement:

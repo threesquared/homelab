@@ -2,7 +2,7 @@ version: '3'
 
 services:
   transmission:
-    image: lsioarmhf/transmission:latest
+    image: linuxserver/transmission:latest
     deploy:
       replicas: 1
       placement:
@@ -22,8 +22,48 @@ services:
     - PUID=8675309
     - TZ=Europe/London
 
+  radarr:
+    image: linuxserver/radarr:latest
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+        - node.platform.arch == aarch64
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+    ports:
+    - 7878:7878
+    volumes:
+    - radarr_data:/config
+    - raidz:/mnt/RAIDZ
+    environment:
+    - PUID=8675309
+    - PGID=8675309
+    - TZ=Europe/London
+
+  sonarr:
+    image: linuxserver/sonarr:latest
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+        - node.platform.arch == aarch64
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+    ports:
+    - 8989:8989
+    volumes:
+    - sonarr_data:/config
+    - raidz:/mnt/RAIDZ
+    environment:
+    - PUID=8675309
+    - PGID=8675309
+    - TZ=Europe/London
+
   couchpotato:
-    image: lsioarmhf/couchpotato:latest
+    image: linuxserver/couchpotato:latest
     deploy:
       replicas: 1
       placement:
@@ -43,7 +83,7 @@ services:
     - TZ=Europe/London
 
   sickrage:
-    image: threesquared/sickchill:latest
+    image: linuxserver/sickchill:latest
     deploy:
       replicas: 1
       placement:
@@ -87,3 +127,15 @@ volumes:
       type: nfs
       o: addr=192.168.0.3,nolock,soft,rw
       device: ":/mnt/RAIDZ/Docker/sickrage"
+  radarr_data:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.0.3,nolock,soft,rw
+      device: ":/mnt/RAIDZ/Docker/radarr"
+  sonarr_data:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.0.3,nolock,soft,rw
+      device: ":/mnt/RAIDZ/Docker/sonarr"

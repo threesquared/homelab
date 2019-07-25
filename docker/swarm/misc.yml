@@ -2,7 +2,7 @@ version: '3.5'
 
 services:
   resilio:
-    image: lsioarmhf/resilio-sync:latest
+    image: linuxserver/resilio-sync:latest
     deploy:
       replicas: 1
       placement:
@@ -24,7 +24,7 @@ services:
     - TZ=Europe/London
 
   unifi:
-    image: lsioarmhf/unifi:latest
+    image: linuxserver/unifi:latest
     deploy:
       replicas: 1
       placement:
