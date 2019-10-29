@@ -1,21 +1,43 @@
 # Homelab
 
-This repository contains config files and provisioning scripts for my various servers at home.
+> This repository contains information, config files and provisioning scripts for my various servers at home.
 
 ## Diagram
 
-This is a diagram of the network.
+This is an overview diagram of the network.
 
 ![Diagram](diagram/diagram.png)
 
-## Ansible
+## Blackstar
 
-This contains Ansible playbooks to provision the main Docker Swarm cluster nodes.
+This contains the details for my main pfSense router.
 
-[Link](./ansible)
+[Link](./blackstar)
 
-## Docker
+## Honeypot
 
-This contains docker-compose configs for the main Docker Swarm and the SSH honeypot.
+This contains a docker-compose config for my SSH honeypot.
 
-[Link](./docker)
+[Link](./honeypot)
+
+## Illmatic
+
+This contains details for my FreeNAS file server.
+
+[Link](./swarm)
+
+## Mirror
+
+This contains details and configs for my MagicMirror² smart mirror.
+
+[Link](./swarm)
+
+## Swarm
+
+This contains docker-compose and Ansible configs for my Docker Swarm.
+
+[Link](./swarm)
+
+## TODO
+
+DNS resolver host overrides do not work when internet is down

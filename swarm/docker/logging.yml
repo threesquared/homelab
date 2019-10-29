@@ -1,17 +1,6 @@
 version: '3.5'
 
 services:
-  logspout:
-    image: gliderlabs/logspout:latest
-    deploy:
-      mode: global
-    volumes:
-      - /etc/hostname:/etc/host_hostname:ro
-      - /var/run/docker.sock:/var/run/docker.sock
-    command: syslog+tls://logs3.papertrailapp.com:52169
-    networks:
-    - common
-
   telegraf:
     image: telegraf:latest
     deploy:
@@ -26,6 +15,25 @@ services:
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
     - telegraf_config:/etc/telegraf
+    networks:
+    - common
+
+  cadvisor:
+    image: google/cadvisor
+    deploy:
+      mode: global
+      placement:
+        constraints: [node.platform.os == linux]
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+    hostname: '{{.Node.Hostname}}'
+    command: -logtostderr -docker_only -storage_driver=influxdb -storage_driver_db=cadvisor -storage_driver_host=influxdb:8086
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker/:/var/lib/docker:ro
     networks:
     - common
 
@@ -45,6 +53,9 @@ services:
     - grafana_data:/var/lib/grafana
     environment:
     - GF_INSTALL_PLUGINS=ntop-ntopng-datasource,grafana-piechart-panel,grafana-worldmap-panel
+    - GF_SECURITY_ALLOW_EMBEDDING=true
+    - GF_AUTH_ANONYMOUS_ENABLED=true
+    - GF_AUTH_ANONYMOUS_ORG_NAME=Yardnet
     networks:
     - common
 
@@ -88,14 +99,6 @@ services:
     - logstash_pipeline:/usr/share/logstash/pipeline
     networks:
     - common
-
-  swarm-alert:
-    image: gpulidodt/swarm-alert:latest
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-    environment:
-    - PUSHOVER_USER_KEY: uWLEPQuu8BZR4XccQkrMbmRr5Fahxq
-    - PUSHOVER_API_TOKEN: a5eoxn792bgfq6hb94c967qfvksbsq
 
 volumes:
   telegraf_config:

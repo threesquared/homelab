@@ -21,8 +21,8 @@ services:
     - kodi_data:/config/.kodi
     - raidz:/mnt/RAIDZ
     environment:
-    - PGID=1000
-    - PUID=1000
+    - PGID=8675309
+    - PUID=8675309
     - TZ=Europe/London
     networks:
     - common
@@ -42,8 +42,8 @@ services:
     volumes:
     - mariadb_data:/config
     environment:
-    - PGID=1000
-    - PUID=1000
+    - PGID=8675309
+    - PUID=8675309
     - TZ=Europe/London
     networks:
     - common
