@@ -16,11 +16,11 @@
 
 ## Illmatic
 
-[Link](./swarm)
+[Link](./illmatic)
 
 ## Mirror
 
-[Link](./swarm)
+[Link](./mirror)
 
 ## Swarm
 
