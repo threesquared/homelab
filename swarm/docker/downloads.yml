@@ -2,7 +2,7 @@ version: '3'
 
 services:
   transmission:
-    image: linuxserver/transmission:latest
+    image: lsioarmhf/transmission:latest
     deploy:
       replicas: 1
       placement:
@@ -20,46 +20,6 @@ services:
     environment:
     - PGID=8675309
     - PUID=8675309
-    - TZ=Europe/London
-
-  radarr:
-    image: linuxserver/radarr:latest
-    deploy:
-      replicas: 1
-      placement:
-        constraints:
-        - node.platform.arch == aarch64
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
-    ports:
-    - 7878:7878
-    volumes:
-    - radarr_data:/config
-    - raidz:/mnt/RAIDZ
-    environment:
-    - PUID=8675309
-    - PGID=8675309
-    - TZ=Europe/London
-
-  sonarr:
-    image: linuxserver/sonarr:latest
-    deploy:
-      replicas: 1
-      placement:
-        constraints:
-        - node.platform.arch == aarch64
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
-    ports:
-    - 8989:8989
-    volumes:
-    - sonarr_data:/config
-    - raidz:/mnt/RAIDZ
-    environment:
-    - PUID=8675309
-    - PGID=8675309
     - TZ=Europe/London
 
   couchpotato:
@@ -82,8 +42,8 @@ services:
     - PUID=8675309
     - TZ=Europe/London
 
-  sickrage:
-    image: linuxserver/sickchill:latest
+  sonarr:
+    image: linuxserver/sonarr:latest
     deploy:
       replicas: 1
       placement:
@@ -93,13 +53,13 @@ services:
         condition: on-failure
         max_attempts: 3
     ports:
-    - 8083:8081
+    - 8989:8989
     volumes:
-    - sickrage_data:/config
+    - sonarr_data:/config
     - raidz:/mnt/RAIDZ
     environment:
-    - PGID=8675309
     - PUID=8675309
+    - PGID=8675309
     - TZ=Europe/London
 
 volumes:

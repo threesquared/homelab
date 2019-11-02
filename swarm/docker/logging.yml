@@ -18,25 +18,6 @@ services:
     networks:
     - common
 
-  cadvisor:
-    image: google/cadvisor
-    deploy:
-      mode: global
-      placement:
-        constraints: [node.platform.os == linux]
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
-    hostname: '{{.Node.Hostname}}'
-    command: -logtostderr -docker_only -storage_driver=influxdb -storage_driver_db=cadvisor -storage_driver_host=influxdb:8086
-    volumes:
-    - /:/rootfs:ro
-    - /var/run:/var/run:rw
-    - /sys:/sys:ro
-    - /var/lib/docker/:/var/lib/docker:ro
-    networks:
-    - common
-
   grafana:
     image: grafana/grafana:latest
     deploy:
@@ -81,25 +62,6 @@ services:
     networks:
     - common
 
-  logstash:
-    image: threesquared/logstash:x86
-    deploy:
-      replicas: 1
-      placement:
-        constraints:
-        - node.platform.arch == x86_64
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
-    ports:
-    - 5140:5140
-    - 5140:5140/udp
-    volumes:
-    - logstash_config:/usr/share/logstash/config
-    - logstash_pipeline:/usr/share/logstash/pipeline
-    networks:
-    - common
-
 volumes:
   telegraf_config:
     driver: local
@@ -113,18 +75,6 @@ volumes:
       type: nfs
       o: addr=192.168.0.3,nolock,soft,rw
       device: ":/mnt/RAIDZ/Docker/influxdb/config"
-  logstash_config:
-    driver: local
-    driver_opts:
-      type: nfs
-      o: addr=192.168.0.3,nolock,soft,rw
-      device: ":/mnt/RAIDZ/Docker/logstash/config"
-  logstash_pipeline:
-    driver: local
-    driver_opts:
-      type: nfs
-      o: addr=192.168.0.3,nolock,soft,rw
-      device: ":/mnt/RAIDZ/Docker/logstash/pipeline"
   grafana_data:
     driver: local
     driver_opts:
