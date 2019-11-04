@@ -1,4 +1,4 @@
-# Honepot
+# Honeypot
 
 > This is the docker-compose config for my SSH honeypot. It runs on a Raspberry Pi inside the Restricted VLAN.
 
