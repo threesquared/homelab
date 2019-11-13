@@ -18,8 +18,8 @@ services:
     - transmission_data:/config
     - raidz:/mnt/RAIDZ
     environment:
-    - PGID=8675309
-    - PUID=8675309
+    - PGID=1000
+    - PUID=1000
     - TZ=Europe/London
 
   couchpotato:
@@ -38,8 +38,8 @@ services:
     - couchpotato_data:/config
     - raidz:/mnt/RAIDZ
     environment:
-    - PGID=8675309
-    - PUID=8675309
+    - PGID=1000
+    - PUID=1000
     - TZ=Europe/London
 
   sonarr:
@@ -58,8 +58,8 @@ services:
     - sonarr_data:/config
     - raidz:/mnt/RAIDZ
     environment:
-    - PUID=8675309
-    - PGID=8675309
+    - PUID=1000
+    - PGID=1000
     - TZ=Europe/London
 
 volumes:
@@ -68,34 +68,34 @@ volumes:
     driver_opts:
       type: nfs
       o: addr=192.168.0.3,nolock,soft,rw
-      device: ":/mnt/RAIDZ"
+      device: ":/mnt/user/RAIDZ"
   transmission_data:
     driver: local
     driver_opts:
       type: nfs
       o: addr=192.168.0.3,nolock,soft,rw
-      device: ":/mnt/RAIDZ/Docker/transmission"
+      device: ":/mnt/user/Docker/transmission"
   couchpotato_data:
     driver: local
     driver_opts:
       type: nfs
       o: addr=192.168.0.3,nolock,soft,rw
-      device: ":/mnt/RAIDZ/Docker/couchpotato"
+      device: ":/mnt/user/Docker/couchpotato"
   sickrage_data:
     driver: local
     driver_opts:
       type: nfs
       o: addr=192.168.0.3,nolock,soft,rw
-      device: ":/mnt/RAIDZ/Docker/sickrage"
+      device: ":/mnt/user/Docker/sickrage"
   radarr_data:
     driver: local
     driver_opts:
       type: nfs
       o: addr=192.168.0.3,nolock,soft,rw
-      device: ":/mnt/RAIDZ/Docker/radarr"
+      device: ":/mnt/user/Docker/radarr"
   sonarr_data:
     driver: local
     driver_opts:
       type: nfs
       o: addr=192.168.0.3,nolock,soft,rw
-      device: ":/mnt/RAIDZ/Docker/sonarr"
+      device: ":/mnt/user/Docker/sonarr"

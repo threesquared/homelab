@@ -21,8 +21,8 @@ services:
     - kodi_data:/config/.kodi
     - raidz:/mnt/RAIDZ
     environment:
-    - PGID=8675309
-    - PUID=8675309
+    - PGID=1000
+    - PUID=1000
     - TZ=Europe/London
     networks:
     - common
@@ -42,8 +42,8 @@ services:
     volumes:
     - mariadb_data:/config
     environment:
-    - PGID=8675309
-    - PUID=8675309
+    - PGID=1000
+    - PUID=1000
     - TZ=Europe/London
     networks:
     - common
@@ -54,13 +54,13 @@ volumes:
     driver_opts:
       type: nfs
       o: addr=192.168.0.3,nolock,soft,rw
-      device: ":/mnt/RAIDZ"
+      device: ":/mnt/user/RAIDZ"
   kodi_data:
     driver: local
     driver_opts:
       type: nfs
       o: addr=192.168.0.3,nolock,soft,rw
-      device: ":/mnt/RAIDZ/Docker/kodi"
+      device: ":/mnt/user/Docker/kodi"
   mariadb_data:
 
 networks:
