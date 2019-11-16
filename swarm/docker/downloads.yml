@@ -5,9 +5,6 @@ services:
     image: linuxserver/transmission:latest
     deploy:
       replicas: 1
-      placement:
-        constraints:
-        - node.platform.arch == aarch64
       restart_policy:
         condition: on-failure
         max_attempts: 3
@@ -26,9 +23,6 @@ services:
     image: linuxserver/couchpotato:latest
     deploy:
       replicas: 1
-      placement:
-        constraints:
-        - node.platform.arch == aarch64
       restart_policy:
         condition: on-failure
         max_attempts: 3
@@ -45,10 +39,6 @@ services:
   sonarr:
     image: linuxserver/sonarr:latest
     deploy:
-      replicas: 1
-      placement:
-        constraints:
-        - node.platform.arch == aarch64
       restart_policy:
         condition: on-failure
         max_attempts: 3
