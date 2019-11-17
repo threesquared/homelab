@@ -1,0 +1,63 @@
+version: '3.5'
+
+services:
+  resilio:
+    image: linuxserver/resilio-sync:latest
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+    ports:
+    - 8888:8888
+    - 55555:55555
+    volumes:
+    - resilio_config:/config
+    - resilio_downloads:/downloads
+    - resilio_sync:/sync
+    environment:
+    - PGID=1000
+    - PUID=1000
+    - TZ=Europe/London
+  s3:
+    image: silintl/sync-with-s3
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+    volumes:
+    - s3_photos:/sync
+    environment:
+    - ACCESS_KEY=
+    - SECRET_KEY=
+    - CRON_SCHEDULE=
+    - SOURCE_PATH=
+    - DESTINATION_PATH=
+    - BUCKET_LOCATION=
+
+volumes:
+  resilio_config:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.0.3,nolock,soft,rw
+      device: ":/mnt/RAIDZ/Docker/resilio/config"
+  resilio_downloads:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.0.3,nolock,soft,rw
+      device: ":/mnt/RAIDZ/Docker/resilio/downloads"
+  resilio_sync:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.0.3,nolock,soft,rw
+      device: ":/mnt/RAIDZ/Backups/Photos/Sync"
+  s3_photos:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.0.3,nolock,soft,rw
+      device: ":/mnt/RAIDZ/Backups/Photos"
