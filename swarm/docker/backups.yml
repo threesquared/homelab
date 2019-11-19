@@ -19,6 +19,23 @@ services:
     - PGID=1000
     - PUID=1000
     - TZ=Europe/London
+  s3:
+    image: silintl/sync-with-s3
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+    volumes:
+    - s3_photos:/backups/Photos
+    environment:
+    - ACCESS_KEY=
+    - SECRET_KEY=
+    - CRON_SCHEDULE=0 1 * * *
+    - SOURCE_PATH=/backups
+    - DESTINATION_PATH=s3://illmatic.backup
+    - BUCKET_LOCATION=eu-west-1
+    - S3SYNC_ARGS=--dry-run
 
 volumes:
   resilio_config:
@@ -39,3 +56,9 @@ volumes:
       type: nfs
       o: addr=192.168.0.3,nolock,soft,rw
       device: ":/mnt/user/RAIDZ/Backups/Photos/Sync"
+  s3_photos:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.0.3,nolock,soft,rw
+      device: ":/mnt/user/RAIDZ/Backups/Photos"
