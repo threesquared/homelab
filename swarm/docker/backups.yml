@@ -31,11 +31,10 @@ services:
     environment:
     - ACCESS_KEY=
     - SECRET_KEY=
-    - CRON_SCHEDULE=0 1 * * *
+    - CRON_SCHEDULE=0 5 * * 3
     - SOURCE_PATH=/backups
     - DESTINATION_PATH=s3://illmatic.backup
     - BUCKET_LOCATION=eu-west-1
-    - S3SYNC_ARGS=--dry-run
 
 volumes:
   resilio_config:
