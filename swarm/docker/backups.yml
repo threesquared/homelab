@@ -19,6 +19,7 @@ services:
     - PGID=1000
     - PUID=1000
     - TZ=Europe/London
+
   s3:
     image: silintl/sync-with-s3
     deploy:

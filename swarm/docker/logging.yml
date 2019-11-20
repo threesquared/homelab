@@ -22,9 +22,6 @@ services:
     image: grafana/grafana:latest
     deploy:
       replicas: 1
-      placement:
-        constraints:
-        - node.platform.arch == x86_64
       restart_policy:
         condition: on-failure
         max_attempts: 3

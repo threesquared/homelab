@@ -71,18 +71,6 @@ volumes:
       type: nfs
       o: addr=192.168.0.3,nolock,soft,rw
       device: ":/mnt/user/Docker/couchpotato"
-  sickrage_data:
-    driver: local
-    driver_opts:
-      type: nfs
-      o: addr=192.168.0.3,nolock,soft,rw
-      device: ":/mnt/user/Docker/sickrage"
-  radarr_data:
-    driver: local
-    driver_opts:
-      type: nfs
-      o: addr=192.168.0.3,nolock,soft,rw
-      device: ":/mnt/user/Docker/radarr"
   sonarr_data:
     driver: local
     driver_opts:
