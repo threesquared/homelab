@@ -2,7 +2,8 @@ version: '3.5'
 
 services:
   telegraf:
-    image: telegraf:latest
+    image: telegraf:alpine
+    hostname: '{{.Node.Hostname}}'
     deploy:
       mode: global
       placement:
@@ -49,10 +50,9 @@ services:
         - node.platform.arch == x86_64
       resources:
         limits:
-          memory: 2048M
+          memory: 3072M
     ports:
     - 8086:8086
-    - 2003:2003
     volumes:
     - influxdb_config:/etc/influxdb
     - influxdb_data:/var/lib/influxdb
