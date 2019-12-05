@@ -4,7 +4,7 @@
 
 ## Hardware
 
-* Platform: HP Microserver N36L [link](http://microserver.wikidot.com/wiki:n36l-specifications)
-* CPU: AMD Athlon II Neo N36L @ 1.30GHz
+* Platform: HP Microserver N54L [link](https://n40l.fandom.com/wiki/Base_Hardware_N54L)
+* CPU: AMD Athlon II Neo N54L @ 2.20GHz
 * RAM: 16GiB (ECC)
-* Storage: 5 x 2TB WD Red
+* Storage: 2 x 10TB WD White Label and 3 x 2TB WD Red
