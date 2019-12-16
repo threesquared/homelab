@@ -81,9 +81,9 @@ volumes:
   influxdb_data:
     driver: local
     driver_opts:
-      type: nfs
-      o: addr=192.168.0.3,nolock,soft,rw
-      device: ":/mnt/user/Docker/influxdb/data"
+      type: none
+      device: "/mnt/unraid/Docker/influxdb/data"
+      o: bind
 
 networks:
   common:
