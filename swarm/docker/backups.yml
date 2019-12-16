@@ -5,6 +5,9 @@ services:
     image: linuxserver/resilio-sync:latest
     deploy:
       replicas: 1
+      placement:
+        constraints:
+        - node.platform.arch == aarch64
       restart_policy:
         condition: on-failure
         max_attempts: 3
