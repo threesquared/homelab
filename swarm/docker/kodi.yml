@@ -36,7 +36,7 @@ services:
         max_attempts: 3
       placement:
         constraints:
-        - node.platform.arch == x86_64
+        - node.hostname == lynette
     ports:
     - 3306:3306
     volumes:
@@ -62,6 +62,11 @@ volumes:
       o: addr=192.168.0.3,nolock,soft,rw
       device: ":/mnt/user/Docker/kodi"
   mariadb_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: "/mnt/unraid/Docker/mariadb"
+      o: bind
 
 networks:
   common:

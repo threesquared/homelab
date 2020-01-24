@@ -47,7 +47,7 @@ services:
         max_attempts: 3
       placement:
         constraints:
-        - node.platform.arch == x86_64
+        - node.hostname == lynette
       resources:
         limits:
           memory: 3072M

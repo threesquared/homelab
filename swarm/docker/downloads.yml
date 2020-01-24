@@ -34,6 +34,7 @@ services:
         max_attempts: 3
     ports:
     - 8112:8112
+    - 58846:58846
     volumes:
     - deluge_data:/config
     - raidz:/mnt/RAIDZ
