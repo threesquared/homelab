@@ -115,28 +115,28 @@ volumes:
     driver_opts:
       type: nfs
       o: addr=192.168.0.3,nolock,soft,rw
-      device: ":/mnt/user/Docker/transmission"
+      device: ":/mnt/user/docker/transmission"
   deluge_data:
     driver: local
     driver_opts:
       type: nfs
       o: addr=192.168.0.3,nolock,soft,rw
-      device: ":/mnt/user/Docker/deluge"
+      device: ":/mnt/user/docker/deluge"
   radarr_data:
     driver: local
     driver_opts:
       type: nfs
       o: addr=192.168.0.3,nolock,soft,rw
-      device: ":/mnt/user/Docker/radarr"
+      device: ":/mnt/user/docker/radarr"
   couchpotato_data:
     driver: local
     driver_opts:
       type: nfs
       o: addr=192.168.0.3,nolock,soft,rw
-      device: ":/mnt/user/Docker/couchpotato"
+      device: ":/mnt/user/docker/couchpotato"
   sonarr_data:
     driver: local
     driver_opts:
       type: nfs
       o: addr=192.168.0.3,nolock,soft,rw
-      device: ":/mnt/user/Docker/sonarr"
+      device: ":/mnt/user/docker/sonarr"
