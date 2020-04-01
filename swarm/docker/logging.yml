@@ -35,6 +35,7 @@ services:
     - GF_SECURITY_ALLOW_EMBEDDING=true
     - GF_AUTH_ANONYMOUS_ENABLED=true
     - GF_AUTH_ANONYMOUS_ORG_NAME=Yardnet
+    - GF_SERVER_ROOT_URL=https://grafana.yardnet.uk
     networks:
     - common
 
