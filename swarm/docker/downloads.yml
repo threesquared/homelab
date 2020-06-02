@@ -1,27 +1,6 @@
 version: '3'
 
 services:
-  transmission:
-    image: linuxserver/transmission:latest
-    deploy:
-      replicas: 1
-      placement:
-        constraints:
-        - node.platform.arch == aarch64
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
-    ports:
-    - 9091:9091
-    - 53725:53725
-    volumes:
-    - transmission_data:/config
-    - raidz:/mnt/RAIDZ
-    environment:
-    - PGID=1000
-    - PUID=1000
-    - TZ=Europe/London
-
   deluge:
     image: linuxserver/deluge:latest
     deploy:
@@ -90,18 +69,12 @@ volumes:
       type: nfs
       o: addr=192.168.0.3,nolock,soft,rw
       device: ":/mnt/user/RAIDZ"
-  transmission_data:
-    driver: local
-    driver_opts:
-      type: nfs
-      o: addr=192.168.0.3,nolock,soft,rw
-      device: ":/mnt/user/docker/transmission"
   deluge_data:
     driver: local
     driver_opts:
       type: nfs
       o: addr=192.168.0.3,nolock,soft,rw
-      device: ":/mnt/user/docker/deluge"
+      device: ":/mnt/user/Docker/deluge"
   radarr_data:
     driver: local
     driver_opts:
