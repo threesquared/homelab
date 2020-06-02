@@ -49,7 +49,7 @@ services:
       replicas: 1
       placement:
         constraints:
-        - node.platform.arch == aarch64
+        - node.hostname == lynette
       restart_policy:
         condition: on-failure
         max_attempts: 3
@@ -63,33 +63,13 @@ services:
     - PGID=1000
     - TZ=Europe/London
 
-  couchpotato:
-    image: linuxserver/couchpotato:latest
-    deploy:
-      replicas: 1
-      placement:
-        constraints:
-        - node.platform.arch == aarch64
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
-    ports:
-    - 5050:5050
-    volumes:
-    - couchpotato_data:/config
-    - raidz:/mnt/RAIDZ
-    environment:
-    - PGID=1000
-    - PUID=1000
-    - TZ=Europe/London
-
   sonarr:
     image: linuxserver/sonarr:latest
     deploy:
       replicas: 1
       placement:
         constraints:
-        - node.platform.arch == aarch64
+        - node.hostname == lynette
       restart_policy:
         condition: on-failure
         max_attempts: 3
@@ -125,18 +105,12 @@ volumes:
   radarr_data:
     driver: local
     driver_opts:
-      type: nfs
-      o: addr=192.168.0.3,nolock,soft,rw
-      device: ":/mnt/user/docker/radarr"
-  couchpotato_data:
-    driver: local
-    driver_opts:
-      type: nfs
-      o: addr=192.168.0.3,nolock,soft,rw
-      device: ":/mnt/user/docker/couchpotato"
+      type: none
+      o: bind
+      device: "/mnt/unraid/Docker/radarr"
   sonarr_data:
     driver: local
     driver_opts:
-      type: nfs
-      o: addr=192.168.0.3,nolock,soft,rw
-      device: ":/mnt/user/docker/sonarr"
+      type: none
+      o: bind
+      device: "/mnt/unraid/Docker/sonarr"
