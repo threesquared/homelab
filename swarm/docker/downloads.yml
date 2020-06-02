@@ -28,7 +28,7 @@ services:
       replicas: 1
       placement:
         constraints:
-        - node.hostname == lynette
+        - node.platform.arch == aarch64
       restart_policy:
         condition: on-failure
         max_attempts: 3
@@ -48,7 +48,7 @@ services:
       replicas: 1
       placement:
         constraints:
-        - node.hostname == lynette
+        - node.platform.arch == aarch64
       restart_policy:
         condition: on-failure
         max_attempts: 3
@@ -78,12 +78,12 @@ volumes:
   radarr_data:
     driver: local
     driver_opts:
-      type: none
-      o: bind
-      device: "/mnt/unraid/Docker/radarr"
+      type: nfs
+      o: addr=192.168.0.3,soft,rw
+      device: ":/mnt/user/docker/radarr"
   sonarr_data:
     driver: local
     driver_opts:
-      type: none
-      o: bind
-      device: "/mnt/unraid/Docker/sonarr"
+      type: nfs
+      o: addr=192.168.0.3,soft,rw
+      device: ":/mnt/user/docker/sonarr"
