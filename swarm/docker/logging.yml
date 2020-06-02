@@ -2,7 +2,7 @@ version: '3.5'
 
 services:
   telegraf:
-    image: telegraf:alpine
+    image: telegraf:latest
     hostname: '{{.Node.Hostname}}'
     deploy:
       mode: global
@@ -35,7 +35,6 @@ services:
     - GF_SECURITY_ALLOW_EMBEDDING=true
     - GF_AUTH_ANONYMOUS_ENABLED=true
     - GF_AUTH_ANONYMOUS_ORG_NAME=Yardnet
-    - GF_SERVER_ROOT_URL=https://grafana.yardnet.uk
     networks:
     - common
 
@@ -48,12 +47,13 @@ services:
         max_attempts: 3
       placement:
         constraints:
-        - node.hostname == lynette
+        - node.platform.arch == x86_64
       resources:
         limits:
           memory: 3072M
     ports:
     - 8086:8086
+    - 2003:2003
     volumes:
     - influxdb_config:/etc/influxdb
     - influxdb_data:/var/lib/influxdb
@@ -66,19 +66,19 @@ volumes:
     driver_opts:
       type: nfs
       o: addr=192.168.0.3,nolock,soft,rw
-      device: ":/mnt/user/docker/telegraf"
+      device: ":/mnt/user/Docker/telegraf"
   influxdb_config:
     driver: local
     driver_opts:
       type: nfs
       o: addr=192.168.0.3,nolock,soft,rw
-      device: ":/mnt/user/docker/influxdb/config"
+      device: ":/mnt/user/Docker/influxdb/config"
   grafana_data:
     driver: local
     driver_opts:
       type: nfs
       o: addr=192.168.0.3,nolock,soft,rw
-      device: ":/mnt/user/docker/grafana"
+      device: ":/mnt/user/Docker/grafana"
   influxdb_data:
     driver: local
     driver_opts:
