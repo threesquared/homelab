@@ -1,0 +1,16 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: telegraf
+  namespace: kube-system
+spec:
+  chart: telegraf-ds
+  repo: https://helm.influxdata.com
+  set:
+    image.tag: "1.14"
+  valuesContent: |-
+    config:
+      outputs:
+        - influxdb:
+            urls:
+              - "http://influx.yardnet:8086"

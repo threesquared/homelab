@@ -1,0 +1,45 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  chart: https://%{KUBERNETES_API}%/static/charts/traefik-1.81.0.tgz
+  valuesContent: |-
+    rbac:
+      enabled: true
+    ssl:
+      enabled: true
+      insecureSkipVerify: true
+    metrics:
+      prometheus:
+        enabled: true
+    dashboard:
+      enabled: true
+      domain: traefik.yardnet
+    acme:
+      logging: true
+      enabled: true
+      email: "ben@3sq.re"
+      challengeType: dns-01
+      staging: false
+      dnsProvider:
+        name: "cloudflare"
+        cloudflare:
+          CLOUDFLARE_EMAIL: "<removed>"
+          CLOUDFLARE_API_KEY: "<removed>"
+      persistence:
+        enabled: true
+      resolvers:
+        - "1.1.1.1:53"
+        - "8.8.8.8:53"
+    kubernetes:
+      ingressEndpoint:
+        useDefaultPublishedService: true
+    image: "rancher/library-traefik"
+    tolerations:
+      - key: "CriticalAddonsOnly"
+        operator: "Exists"
+      - key: "node-role.kubernetes.io/master"
+        operator: "Exists"
+        effect: "NoSchedule"

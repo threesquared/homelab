@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: grafana
+
+---
+
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: grafana
+  namespace: kube-system
+spec:
+  chart: stable/grafana
+  targetNamespace: grafana
+  valuesContent: |-
+    env:
+      GF_SECURITY_ALLOW_EMBEDDING: "true"
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_NAME: "Yardnet"
+    plugins:
+      - "ntop-ntopng-datasource"
+      - "grafana-piechart-panel"
+      - "grafana-worldmap-panel"
+    persistence:
+      enabled: true
+      storageClassName: "nfs-client"
+    ingress:
+      enabled: true
+      hosts:
+        - "graphs.yardnet.uk"

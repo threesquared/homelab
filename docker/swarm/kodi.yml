@@ -27,6 +27,31 @@ services:
     networks:
     - common
 
+    plex:
+      image: plexinc/pms-docker:latest
+      deploy:
+        replicas: 1
+        placement:
+          constraints:
+          - node.platform.arch == aarch64
+        restart_policy:
+          condition: on-failure
+          max_attempts: 3
+      ports:
+      - 8082:8080
+      - 9777:9777/udp
+      - 9090:9090
+      volumes:
+      - kodi_data:/config/.kodi
+      - /path/to/library:/config
+      - raidz:/mnt/RAIDZ
+      environment:
+      - PGID=1000
+      - PUID=1000
+      - VERSION=docker
+      networks:
+      - common
+
   mariadb:
     image: linuxserver/mariadb:latest
     deploy:
@@ -60,7 +85,7 @@ volumes:
     driver_opts:
       type: nfs
       o: addr=192.168.0.3,nolock,soft,rw
-      device: ":/mnt/user/docker/kodi"
+      device: ":/mnt/user/Docker/kodi"
   mariadb_data:
     driver: local
     driver_opts:

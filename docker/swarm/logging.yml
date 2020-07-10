@@ -60,6 +60,27 @@ services:
     networks:
     - common
 
+  nestmon:
+    image: jforman/nestmon:1.0
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+      placement:
+        constraints:
+        - node.hostname == lynette
+      resources:
+        limits:
+          memory: 3072M
+    ports:
+    - 8086:8086
+    volumes:
+    - influxdb_config:/etc/influxdb
+    - influxdb_data:/var/lib/influxdb
+    networks:
+    - common
+
 volumes:
   telegraf_config:
     driver: local
