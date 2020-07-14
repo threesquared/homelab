@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: unifi
+
+---
+
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: unifi
+  namespace: kube-system
+spec:
+  chart: stable/unifi
+  targetNamespace: unifi
+  valuesContent: |-
+    nodeSelector:
+      beta.kubernetes.io/arch: "amd64"
+    persistence:
+      enabled: true
+      storageClass: "nfs-client"
+    mongodb:
+      enabled: true
+      dbUri: mongodb://mongo.yardnet.uk/unifi
+      statDbUri: mongodb://mongo.yardnet.uk/unifi_stat
+    ingress:
+      enabled: true
+      hosts:
+        - "unifi.yardnet.uk"

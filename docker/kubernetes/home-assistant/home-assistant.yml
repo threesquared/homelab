@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: home-assistant
+
+---
+
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: home-assistant
+  namespace: kube-system
+spec:
+  chart: home-assistant
+  targetNamespace: home-assistant
+  repo: https://billimek.com/billimek-charts
+  valuesContent: |-
+    persistence:
+      enabled: true
+      storageClass: "nfs-client"
+    ingress:
+      enabled: true
+      hosts:
+        - "home.yardnet.uk"
