@@ -22,6 +22,8 @@ spec:
       - "ntop-ntopng-datasource"
       - "grafana-piechart-panel"
       - "grafana-worldmap-panel"
+      - "natel-discrete-panel"
+      - "grafana-clock-panel"
     persistence:
       enabled: true
       storageClassName: "nfs-client"
