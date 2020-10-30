@@ -319,7 +319,7 @@ metadata:
     traefik.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
   rules:
-    - host: k8s.yardnet
+    - host: k8s.yardnet.uk
       http:
         paths:
           - path: /

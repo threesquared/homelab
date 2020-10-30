@@ -13,4 +13,4 @@ spec:
       outputs:
         - influxdb:
             urls:
-              - "http://influx.yardnet:8086"
+              - "http://influx.yardnet.uk:8086"

@@ -4,7 +4,6 @@ metadata:
   name: unifi
 
 ---
-
 apiVersion: helm.cattle.io/v1
 kind: HelmChart
 metadata:
@@ -14,8 +13,6 @@ spec:
   chart: stable/unifi
   targetNamespace: unifi
   valuesContent: |-
-    nodeSelector:
-      beta.kubernetes.io/arch: "amd64"
     persistence:
       enabled: true
       storageClass: "nfs-client"
