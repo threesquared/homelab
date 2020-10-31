@@ -10,8 +10,11 @@ metadata:
   name: unifi
   namespace: kube-system
 spec:
-  chart: stable/unifi
+  chart: unifi
+  repo: https://k8s-at-home.com/charts/
   targetNamespace: unifi
+  set:
+    image.tag: "latest"
   valuesContent: |-
     persistence:
       enabled: true
